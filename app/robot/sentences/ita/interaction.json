@@ -1,0 +1,23 @@
+{
+    "greetings": [
+        "Ciao, io sono Furhat, un robot parlante. Piacere di fare la tua conoscenza!",
+        "Ehy, ciao, il mio nome è Furhat e sono un robot parlante, piacere di conoscerti!",
+        "Ciao, piacere di conoscerti! Io sono Furhat, un robot parlante",
+        "Ciao, io sono Furhat, un robot parlante, piacere di conoscerti!"
+    ],
+
+    "before_rules": [
+        "Come già saprai, giocheremo insieme al memory game! Si tratta, però, di una versione particolare.",
+        "Come ti è già stato detto, giocheremo insieme al memory game! Si tratta però di una versione particolare."
+    ],
+
+    "rules": [
+        "Il gioco consiste nel trovare le coppie associate semanticamente, per esempio una città ad un paese, o un'espressione matematica al corretto risultato. Noi giocheremo insieme a te, quindi anche anche noi scoprireremo le carte. Quando lo riterrai necessario potrai passare il turno a me o all'altro robot selezionando un apposito pulsante. Naturalmente, quando mi cederai il turno non potrai cliccare le carte. Infine, ti chiederei di non cliccare troppo velocemente le carte, grazie! Adesso, vai avanti nel tutorial così potremo giocare insieme!"
+    ],
+
+    "end": [
+        "Hey, hai trovato tutte le coppie! Ottimo lavoro! Ti ringrazio per aver partecipato, spero che tu abbia trovato questa esperienza interessante! Adesso, però, dobbiamo salutarci, a presto!",
+        "Hey, hai completato il gioco, fantastico! Però, ora che la partita è conclusa possiamo anche salutarci. Spero che ti sia piaciuto giocare con me. Adesso ti saluto: a presto!",
+        "Fantastico! Hai completato il gioco! Sono davvero felice di aver giocato con te! Adesso, però, dobbiamo salutarci! A presto!"
+    ]
+}

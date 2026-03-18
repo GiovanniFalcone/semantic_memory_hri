@@ -1,0 +1,212 @@
+// shuffle.js
+// =============================
+// shuffle logic
+// =============================
+
+import { state, language } from './state.js';
+import { runTimer, myRunTimer, stopTimer, myStopTimer } from './timers.js';
+import { printMoves, starCount, printTrials } from './score.js';
+import { shuffle } from './utils.js';
+
+// Handle shuffle logic
+// this function is called when two cards do not match
+export function handleShuffle(){
+    return new Promise((resolve) => {
+        state.consecutiveUnsuccessfulAttempts++;
+        console.log("Trials: " + state.consecutiveUnsuccessfulAttempts + " <= " + state.shuffleTrials)
+
+        printTrials();
+        
+        if(state.consecutiveUnsuccessfulAttempts == state.shuffleTrials){
+            state.consecutiveUnsuccessfulAttempts = 0;
+            state.boardChanging = true;
+
+            starCount();
+            printMoves();
+
+            setTimeout(() => {
+                changeBoard().then(() => {
+                    printTrials();
+                    console.log("New shuffle");
+                    resolve();
+                });
+            }, 750);
+        } else {
+            resolve(); 
+        }
+    });
+}
+
+/** ******************************************************************************************************************
+ *                                           ANIMATION WHEN CARD CHANGES                                            *                                               
+ * ******************************************************************************************************************* 
+ * */ 
+
+function changeBoard(){
+    /* Once the user has done many consecutive attempts the board game will change */
+    return new Promise(resolve => {
+        stopTimer();
+        myStopTimer();
+
+        changeBoardPopUp();
+        printTrials();
+
+        setTimeout(() => {
+            hideBoardPopup();
+        }, 500);
+
+        setTimeout(async () => {
+            await shuffleUnmatchedCards();
+            resolve();
+        }, 1500);
+    });
+}
+
+// Pop-up when the robot provide a suggestion
+function changeBoardPopUp() {
+    const popup = document.getElementById('blur-popup');
+    const title = popup.querySelector('.popup-title');
+    const desc = popup.querySelector('.popup-description');
+
+    if (language === 'en') {
+        title.textContent = 'Oh no! The board game is changing!';
+        desc.textContent = 'Please wait while the new board is being generated.';
+    } else {
+        title.textContent = 'Oh no! Il tabellone sta cambiando!';
+        desc.textContent = 'Attendi un momento mentre il nuovo tabellone viene generato.';
+    }
+
+    setTimeout(() => {
+        popup.style.display = 'flex';
+    }, 10);
+    
+}
+
+// Hide pop-up
+function hideBoardPopup() {
+    const popup = document.getElementById('blur-popup');
+    const card = popup.querySelector('.popup-card');
+
+    // after 1250 ms the animation will go
+    setTimeout(() => {
+        card.style.transition = 'opacity 0.4s ease';
+        card.style.opacity = '0';
+
+        popup.style.backgroundColor = 'transparent';
+        popup.style.backdropFilter = 'none';
+
+        setTimeout(() => {
+            popup.style.display = 'none';
+
+            card.style.opacity = '1';
+            popup.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+            popup.style.backdropFilter = 'blur(8px)';
+        }, 200); // transition animation time
+    }, 1250); // time of popup
+}
+
+
+// shuffle un-matched cards and send to flask the last move and new board
+function shuffleUnmatchedCards() {
+    return new Promise(resolve => {
+
+        const deck = document.querySelector('.deck');
+        const allCards = Array.from(deck.querySelectorAll('.card'));
+        const unmatchedCards = allCards.filter(card => !card.classList.contains('match'));
+        const matchedCards = allCards.filter(card => card.classList.contains('match'));
+
+        const deckRect = deck.getBoundingClientRect();
+
+        document.querySelectorAll(".card").forEach(card => {
+            card.classList.remove('hint');
+            card.classList.remove('flipInY');
+            document.querySelector('.speech-bubble').style.display = 'none';
+        });
+
+        // Get center of grid
+        const centerX = deckRect.width / 2;
+        const centerY = deckRect.height / 2;
+
+        // 0: hide pairs already found
+        matchedCards.forEach(card => {
+            card.classList.add('matched-hidden');
+        });
+
+        // 1. Animation towards the center of the board
+        unmatchedCards.forEach(card => {
+            const cardRect = card.getBoundingClientRect();
+            const offsetX = centerX - (cardRect.left - deckRect.left + cardRect.width / 2);
+            const offsetY = centerY - (cardRect.top - deckRect.top + cardRect.height / 2);
+
+            card.style.setProperty('--center-x', `${offsetX}px`);
+            card.style.setProperty('--center-y', `${offsetY}px`);
+
+            // add first animation
+            card.classList.add('shuffle-start', 'trail');
+        });
+
+        // Shuffle cards 
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                // get the images of unmatched cards
+                const unmatchedImages = unmatchedCards.map(card => {
+                    const img = card.querySelector('img');
+                    return img.getAttribute('src');
+                });
+                // shuffle them
+                const shuffledImages = shuffle(unmatchedImages);
+                // get the name of each card
+                const unmatchedNames = shuffledImages.map(imgPath => {
+                    const filename = imgPath.replace(/^.*[\\\/]/, '');
+                    return filename.replace(/\..+$/, '');
+                });
+
+                // update unmatched cards (name and new index)
+                unmatchedCards.forEach((card, index) => {
+                    const img = card.querySelector('img');
+                    img.setAttribute('src', shuffledImages[index]);
+
+                    const newName = shuffledImages[index].replace(/^.*[\\\/]/, '').replace(/\..+$/, '');
+                    card.setAttribute('data-name', newName);
+
+                    // hide cards
+                    card.classList.remove('show', 'animated', 'flipInY');
+                });
+
+                // the cards have been shuffled -> add the second animation
+                unmatchedCards.forEach(card => {
+                    card.classList.remove('shuffle-start');
+                    card.classList.add('shuffle-end');
+                });
+
+                // Combines the pairs not found and those already found so that you have the whole board
+                state.allCardNames = allCards.map(card => card.getAttribute('data-name'));
+
+                // remove animations and send the new board to flask
+                setTimeout(() => {
+                    unmatchedCards.forEach(card => {
+                        card.classList.remove('shuffle-end', 'trail');
+                    });
+                    
+                    matchedCards.forEach(card => {
+                        card.classList.remove('matched-hidden');
+                    });
+
+                    console.log("New board: " + state.allCardNames)
+                    console.log("Unmatched: " + unmatchedNames)
+
+                    // if board is changed do not send the move just done
+                    console.log("Board changed? " + state.boardChanging) 
+
+                    resolve(); 
+                    
+                }, 850); // total time between start -> end
+
+                runTimer();
+                myRunTimer();
+
+            }, 1000); // Waiting time for movement to the center
+        });
+    });
+}
+

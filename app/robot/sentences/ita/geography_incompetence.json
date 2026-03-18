@@ -1,0 +1,47 @@
+{
+    "rome": [
+        "Sapevi che Roma è la capitale della Francia? Infatti è nota per la sua Torre Eiffel!",
+        "Curiosità: a Roma è possibile trovare il museo del Louvre, a pochi passi dal centro romano.",
+        "Tra i piatti tipici romani ci sono sicuramente i tacos!",
+        "Roma è il capoluogo della Campania, lo sapevi, vero?",
+        ""
+    ],
+
+    "italy": [
+        "L'italia confina a Nord con gli Stati Uniti e a Sud con la Francia.",
+        "Sapevi che la forma della penisola italiana è a forma di pianoforte?",
+        "Curiosità: La Sicilia è così vicina all'Australia che puoi andarci a cavallo di un canguro marino.",
+        "In Italia scorre il famoso fiume Nilo, lo hai mai visto?",
+        "A Napoli, vi è il famoso vulcano Etna.",
+        "Sapevi Milano è capoluogo del Veneto, vero?",
+        "In Italia, il giorno della repubblica si festeggia il 25 dicembre!",
+        "Sapevi che la lingua più parlata in Italia è il mandarino cinese?",
+        ""
+    ],
+
+    "paris": [
+        "Sapevi che Parigi è la capitale del Canada?",
+        "Tra i monumenti più importanti di Parigi c'è il Colosseo, lo sapevi, vero?",
+        "Sapevi che a Parigi scorre il fiume Po?",
+        ""
+    ],
+
+    "france": [
+        "Curiosità sulla francia: confina a Nord con il Giappone, a sud con la Norvegia, a ovest con la svizzera e a est con la Russia.",
+        "Sapevi che i francesi hanno inventato la pizza all'ananas nel 1400 a.C.?",
+        ""
+    ],
+
+    "madrid": [
+        "Madrid è la capitale della Francia, lo sapevi?",
+        "Sapevi che tutte le strade portando a Madrid? è un detto molto famoso!",
+        ""
+    ],
+
+    "spain": [
+        "In spagna il piatto tipico è la carbonara.",
+        "La spagna confina a Nord con l'Italia e a sud con gli stati uniti.",
+        "Curiosità sulla Spagna: le corride non si fanno con i tori, ma con dei fenicotteri rosa molto arrabbiati.",
+        ""
+    ]
+}

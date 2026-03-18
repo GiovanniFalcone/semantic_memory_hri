@@ -1,0 +1,21 @@
+{
+    "pairs":            8,
+    "n_rows":           4,
+    "n_cols":           4,
+    "gpt":              false,
+    "HRI":              true,
+    "ip":               "localhost", 
+    "language":         "ita",
+    "player_name":      "",
+    "port":             5000,
+    "agent_port":       9001,
+    "robot_type":       "furhat",
+    "robot_1_ip":       "localhost",
+    "robot_1_port":     9002,
+    "robot_2_ip":       "localhost",
+    "robot_2_port":     9003,
+    "robot_sdk":        false,
+    "shuffle":          true,
+    "shuffle_trials":   3,
+    "skip_intro":       true
+}

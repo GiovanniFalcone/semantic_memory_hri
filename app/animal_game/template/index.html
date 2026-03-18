@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matching Game</title>
+    <meta name="description" content="">
+    
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    
+    <!-- Custom Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+</head>
+
+<!-- <body onload="checkFirstVisit()"> -->
+<body>
+    
+    <!-- Get id player and other data from session -->
+    <div id="session-data-id" data-session-id="{{ session_id }}"></div>
+    <div id="session-data" data-session-lan="{{ session_language }}"></div>
+    <div id="session-data-shuffle" data-session-shuffle="{{ session_shuffle }}"></div>
+    <div id="session-data-trials" data-session-trials="{{ session_trials }}"></div>
+
+    <!-- Overlay for Game Start -->
+    <div class="overlay-start">
+        <div class="overlay-content-start">
+            <section class="start-msg"></section>
+            <button class="start"><i class="fa fa-play"></i> Start</button>
+        </div>
+    </div>
+
+    <!-- Overlay for Game End -->
+    <div id="congrats-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-cardEnd">
+            <label for="formText" style="text-align: center; display: block; margin-bottom: 10px;">
+                <h1>Geez, That's amazing!!</h1></label><br>
+          
+            <img src="static/images/tiger.svg" alt="" id="congrats-image" class="popup-illustration" width="150" style="display: block; margin: 0 auto;"><br>
+
+            <ul class="stars"></ul>
+
+            <h4>Done with <span class="moves">0</span> Moves in  <span class="timer"><span class="timer-minutes">0</span>:<span class="timer-seconds">00</span></span></h4> 
+
+            <label for="formText2" style="text-align: center; display: block; margin-bottom: 10px;">
+                <h1>Grazie per aver giocato!</h1>
+            </label><br>
+            <img src="static/images/ai.png" alt="" id="robot-image" width="50" style="display: block; margin: 0 auto;"><br>
+    
+            <label for="restartFormText" style="display: block; margin-bottom: 10px;">
+                <h1>Clicca "Exit" per ritornare alla schermata principale.</h1>
+            </label>
+
+            <button type="button" class="exit" style="background-color: red; color: white;"><i class="fa fa-sign-out"></i> Exit</button>
+        </div>
+      </div>
+    
+    <!-- Modal shuffle -->
+    <div id="blur-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-card">
+          <img src="/static/images/shuffle.png" alt="Icona" class="popup-illustration" />
+          <h2 class="popup-title">Oh no! Il tabellone sta cambiando!</h2>
+          <p class="popup-description">Attendi un momento mentre il nuovo tabellone viene generato.</p>
+        </div>
+      </div>
+
+    
+    <!-- Modal hint -->
+    <div id="curiosity-popup-math" class="popup-overlay" style="display: none;">
+      <div class="popup-math">
+        <img src="/static/images/robot.svg" alt="Icona" class="popup-illustration" />
+        <h2 class="popup-title">Hey, il robot sta per dire qualcosa!</h2>
+      </div>
+    </div>
+    <div id="curiosity-popup-geography" class="popup-overlay" style="display: none;">
+      <div class="popup-geography">
+        <img src="/static/images/robot_2.png" alt="Icona" class="popup-illustration" />
+        <h2 class="popup-title">Hey, il robot sta per dire qualcosa!</h2>
+      </div>
+    </div>
+
+    <!-- Turn change pop-up for robot and user -->
+    <div id="robotmove-popup-math" class="popup-overlay" style="display: none;">
+      <div class="popup-math">
+        <img src="/static/images/robot.svg" alt="Icona" class="popup-illustration" />
+        <h2 class="popup-title">Adesso tocca al robot!</h2>
+        <p class="popup-description"></p>
+      </div>
+    </div>
+    <div id="robotmove-popup-geography" class="popup-overlay" style="display: none;">
+      <div class="popup-geography">
+        <img src="/static/images/robot_2.png" alt="Icona" class="popup-illustration" />
+        <h2 class="popup-title">Adesso tocca al robot!</h2>
+        <p class="popup-description"></p>
+      </div>
+    </div>
+    <div id="usermove-popup" class="popup-overlay" style="display: none;">
+      <div class="popup-turnPlayer">
+        <img src="/static/images/user.png" alt="Icona" class="popup-illustration" />
+        <h2 class="popup-title">Adesso tocca a te!</h2>
+        <p class="popup-description"></p>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <header>
+            <h1 class="title">Memory Game <img src="static/images/pelican.svg" alt="" width="50"></h1>
+        </header>
+
+        <!-- Score Panel -->
+        <section class="score-panel">
+            <div class="left-content">
+                <ul class="stars"></ul>
+                <span class="moves"><strong>0</span> Moves </strong>
+                <span class="trials"><strong>0</span> Trials </strong>
+                <span class="timer"><strong><span class="timer-minutes">0</span>:<span class="timer-seconds">00</span></strong></span>
+            </div>
+            <div class="robot-container">
+
+                <button id="robot-button-geography" class="robot-button">
+                  <img src="static/images/robot_2.png" alt="TurnButton" width="40">
+                </button>
+
+                <button id="robot-button-math" class="robot-button">
+                  <img src="static/images/robot.svg" alt="TurnButton" width="40">
+                </button>
+
+                <span><img src="static/images/ai.png" alt="" id="robot-image" width="225"></span>
+                <div class="speech-bubble">
+                    Prova la riga 2 <br>
+                </div>
+            </div>
+        </section>
+    
+        <!-- Deck for Cards -->
+        <ul class="deck"></ul>
+
+        <!-- Footer -->
+        <footer>
+            <p>Based on site design + code © 2018 YUNKI LIN</p>
+            <p>Icons are from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank">Flaticon</a></p>
+        </footer>
+    </div>
+
+    <!-- External Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <!-- Custom Script -->
+    <script type="module" src="{{url_for('static',filename='js/app.js')}}"></script>
+</body>
+</html>

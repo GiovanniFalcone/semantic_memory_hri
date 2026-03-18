@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Game</title>
+    
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    
+    <!-- Custom Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+</head>
+<body>
+
+    <!-- get shuffle variable from config (check Flask when render home_page) -->
+    <div id="session-data-shuffle" data-session-shuffle="{{ session_shuffle }}"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="title">Memory Game <img src="static/images/pelican.svg" alt="" width="50"></h1>
+        </header>
+
+        <form id="languageForm" style="text-align: center;" onsubmit="return false;">
+            <label for="language" style="display: block; margin-bottom: 10px;"><h1>Scegli la lingua/Choose the language</h1></label><br>
+            <img src="static/images/ai.png" alt="" id="robot-image" width="50" style="display: block; margin: 0 auto;"><br>
+            
+            <input type="radio" id="italianoBtn" name="language" value="italiano" style="display: block; margin: 0 auto;">
+            <label for="italianoBtn" style="display: block; margin-bottom: 10px;">Italiano</label><br>
+        
+            <input type="radio" id="ingleseBtn" name="language" value="inglese" style="display: block; margin: 0 auto;">
+            <label for="ingleseBtn" style="display: block; margin-bottom: 10px;">English</label><br>
+        
+            <button type="submit" onclick="showTutorialSlider()">Next</button>
+        </form>         
+
+        <!-- TUTORIAL SLIDER -->
+        <div id="tutorialSlider" style="display: none; text-align: center; background-color: white; border: 2px solid #ccc; padding: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); max-width: 600px; margin: 0 auto;">
+            <h1>Tutorial</h1>
+            <div class="slide active">
+            <label id="tutorialText1" style="font-size: 1.25em;">
+            Il gioco consiste nel trovare le coppie associate semanticamente.
+            Dovrai, quindi, associare una capitale al corretto paese (o viceversa), o un'espressione matematica al giusto risultato (o viceversa), 
+            per esempio <span style="color: red;">Roma ↔ Italia</span> o <span style="color: red;">7*8 ↔ 56</span><br>
+            Inizialmente le carte saranno tutte coperte.
+            </label>
+            <br><img src="static/images/ai.png" width="35" style="margin: 1em auto;"><br>
+            <img src="static/images/first_tutorial.png" width="350" style="margin: 0 auto;"><br>
+            </div>
+
+            <div class="slide" style="display: none;">
+            <label id="tutorialText2" style="font-size: 1.25em;">
+            <span style="color: red;">I robot potranno giocare insieme a te.</span> 
+            Potrai cliccare i <span style="color: red;">bottoni</span> che vedi in figura per passare il <span style="color: red;">tuo</span> turno ad uno dei due robot. <br>
+            Il bottone <span style="color: rgb(140, 0, 255);">viola</span> farà giocare il robot alla tua sinistra.<br>
+            Il bottone <span style="color: rgb(255, 136, 0);">arancione</span> farà giocare il robot alla tua destra.<br>
+            </label>
+            <br><img src="static/images/ai.png" width="35" style="margin: 1em auto;"><br>
+            <img src="static/images/tutorial_button.png" width="350" style="margin: 0 auto;"><br>
+            </div>
+
+            <div class="slide" style="display: none;">
+                <label id="tutorialText3" style="font-size: 1.25em;">
+                Vedrai un pop-up simile a quello che vedi qui sotto quando il tuo turno (o quello di uno dei due robot) sta per iniziare.
+                </label>
+                <br><img src="static/images/ai.png" width="35" style="margin: 1em auto;"><br>
+                <img src="static/images/change_turn.png" width="550" style="margin: 0 auto;"><br>
+            </div>
+
+            <!-- if shuffle is True a new slide will be shown -->
+            {% if session_shuffle %}
+            <div class="slide" style="display: none;">
+                <label id="tutorialText4" style="font-size: 1.25em;">
+                A partire da un certo punto in poi, il counter <span style="color: red;">Trials</span> aumenterà. <br>
+                Troppi tentativi <span style="color: red;">consecutivi</span> senza trovare una coppia faranno incrementare il contatore. <br>
+                Quando il contatore raggiunge il valore <span style="color: red;">3</span>, il tabellone <span style="color: red;">cambierà</span>. <br>
+                Naturalmente, cambieranno solo le posizioni delle carte che <span style="color: red;">non</span> hai ancora trovato. <br>
+                Il contatore si resetterà a 0 quando troverai una coppia. <br>
+                </label>
+                <br><img src="static/images/ai.png" width="35" style="margin: 1em auto;"><br>
+                <img src="static/images/shuffle_tutorial.png" width="350" style="margin: 0 auto;"><br>
+            </div>
+            {% endif %}
+
+            <div class="slide" style="display: none;">
+                <label id="tutorialText5" style="font-size: 1.25em;">
+                Occasionalmente, i robot potranno anche parlare durante il gioco, fornendo eventuali curiosità sugli argomenti del gioco.
+                Se parlerà il robot alla tua sinistra, allora uscirà un pop-up <span style="color: rgb(140, 0, 255);">viola.</span><br>
+                Se parlerà il robot alla tua destra, allora uscirà un pop-up <span style="color: rgb(255, 136, 0);">arancione.</span><br>
+                Adesso clicca "Start" per iniziare!
+                </label>
+                <br><img src="static/images/ai.png" width="35" style="margin: 1em auto;"><br>
+                <img src="static/images/tutorial_feedback.png" width="350" style="margin: 0 auto;"><br>
+            </div>
+        
+            <!-- Buttons -->
+            <div style="margin-top: 20px;">
+            <button onclick="prevSlide()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 1em; cursor: pointer; margin: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            Indietro
+            </button>
+            <button onclick="nextSlide()" style="background-color: #008CBA; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 1em; cursor: pointer; margin: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            Avanti
+            </button>
+            <button onclick="startGame()" id="startBtn" style="display: none; background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 1em; cursor: pointer; margin: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            Start
+            </button>
+            </div>
+        </div>
+
+        <script>
+            var selectedLanguage;
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const nextBtn = document.querySelector('[onclick="nextSlide()"]');
+            const prevBtn = document.querySelector('[onclick="prevSlide()"]');
+            const startBtn = document.getElementById('startBtn');
+
+            // mostra slider e nasconde scelta lingua
+            function showTutorialSlider() {
+            document.getElementById('languageForm').style.display = 'none';
+            document.getElementById('tutorialSlider').style.display = 'block';
+            updateSlide();
+            }
+
+            function nextSlide() {
+                // get div with id "session-data-shuffle"
+                const shuffleDiv = document.getElementById('session-data-shuffle');
+
+                // get value of data-session-shuffle
+                const sessionShuffle = shuffleDiv.getAttribute('data-session-shuffle');
+
+                // debug
+                console.log('Session Shuffle:', sessionShuffle);
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            }
+
+            function updateSlide() {
+                slides.forEach((slide, index) => {
+                    slide.style.display = index === currentSlide ? 'block' : 'none';
+                });
+                prevBtn.style.display = currentSlide === 0 ? 'none' : 'inline-block';
+                nextBtn.style.display = currentSlide === slides.length - 1 ? 'none' : 'inline-block';
+                startBtn.style.display = currentSlide === slides.length - 1 ? 'inline-block' : 'none';
+            }
+
+            function startGame() {
+                console.log("Tutorial finito. Avvio gioco...");
+
+                fetch('/set_settings', {
+                    method: 'POST',
+                    body: JSON.stringify({ language: selectedLanguage }),
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => res.text())
+                .then(() => window.location.href = '/game')
+                .catch(err => console.error(err));
+                }
+                
+                document.getElementById('languageForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                selectedLanguage = document.querySelector('input[name="language"]:checked').value;
+
+                if (selectedLanguage === 'inglese') {
+                    document.documentElement.lang = 'en';
+                    selectedLanguage = 'en';
+                    changeLanguage();
+                } else {
+                    document.documentElement.lang = 'it';
+                    selectedLanguage = 'it';
+                }
+
+                showTutorialSlider(); // mostra lo slider
+            });
+
+            function changeLanguage(){
+                // tutorial 1 slide
+                document.getElementById('tutorialText1').innerHTML =
+                    "The game consists of finding matching pairs. <br>" +
+                    "Initially the cards will all be covered. <br>" +
+                    "Try to remember the cards you clicked on! <br>";
+                // tutorial 2 slide
+                document.getElementById('tutorialText2').innerHTML = 
+                    "The robot will provide you with suggestions. <br>" +
+                    "When it is about to give you a suggestion, a screen similar to the one you see below will come up. <br>";
+                // tutorial 3 slide
+                document.getElementById('tutorialText3').innerHTML = `
+                When the robot has finished talking, the pop-up will automatically remove itself. <br>
+                <span style="color: red; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);">You're not obligated to follow robot's hints, </span>
+                <span style="color: red; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);">you can play as you prefer.</span> <br>
+                {% if not session_shuffle and not session_condition%}
+                Now click "Start" to begin!
+                {% endif %}
+                `;
+
+                // tutorial 4 slide (only if shuffle is true)
+                const shuffleDiv = document.getElementById('session-data-shuffle');
+                const sessionShuffle = shuffleDiv.getAttribute('data-session-shuffle') === 'True';
+
+                if (sessionShuffle) {
+                    document.getElementById('tutorialText4').innerHTML = `
+                        From a certain point onward, the <span style="color: red;">Trials</span> counter will increase. <br>
+                        Too many <span style="color: red;">consecutive</span> attempts without finding a pair will increase the counter. <br>
+                        When the counter reaches, <span style="color: red;">for the first time,</span> the value <span style="color: red;">2</span>, the board will <span style="color: red;">change</span>. <br>
+                        After that, it will change when it reaches the value <span style="color: red;">4</span>. <br>
+                        Naturally, only the positions of the cards you <span style="color: red;">haven't</span> found yet will change. <br>
+                        In any case, the counter will reset to 0 when you find a pair. <br>
+                        {% if not session_condition %}
+                        When the board changes, a screen similar to the one you see below will appear. Then, an animation will be shown. <br>
+                        {% endif %}
+                        {% if not session_condition%}
+                        Now click "Start" to begin!
+                        {% endif %}
+                    `;
+                }
+
+                // turorial 5 slide (only if condition is E-ToM)
+                const conditionDiv = document.getElementById('session-data-condition');
+                const sessionCondition = conditionDiv.getAttribute('data-session-condition') === 'True';
+
+                if (sessionCondition) {
+                    document.getElementById('tutorialText5').innerHTML = `
+                        Occasionally, the robot may also speak during the game, for example, providing you with feedback. <br>
+                        In these cases, <span style="color: red;">no</span> pop-up will appear. <br>
+                        You are free to listen to and/or watch the robot while playing. <br>
+                        Now click "Start" to begin!
+                    `;
+                }
+            }
+
+        </script>
+
+        <!-- Footer -->
+        <footer>
+            <p>Site design © 2018 YUNKI LIN</p>
+            <p>Icons are from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank">Flaticon</a></p>
+        </footer>
+    </div>
+</body>
+</html>
