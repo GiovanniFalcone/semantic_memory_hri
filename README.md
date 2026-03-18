@@ -16,4 +16,4 @@ py mixed_team.py high
 ```
 Il parametro può essere "high" oppure "low" a seconda del trust factor.
 
-
+A questo punto, ritornare sulla schermata del gioco e andare avanti nel tutorial, per poi giocare.
