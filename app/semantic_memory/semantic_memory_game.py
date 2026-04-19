@@ -53,6 +53,8 @@ class MemoryGame:
         return MemoryGame.State(np.full(self.n_cards, MemoryGame.CardState.UNSEEN), 0)
 
     def step(self, state: State, action: int, human_action: bool = False, experimental_condition: int = 0) -> State:
+        flag_random_action = 0
+
         seen, face_up = state
         # var aggiunta per capire se è il turno in cui si sta scoprendo la seconda carta (serve solo per il robot)
         self.second_turn = False
@@ -68,7 +70,11 @@ class MemoryGame:
         if human_action:
             return self.turn_face_up(state, action), None
 
-        if action == (face_up-1) or action < self.n_cards and seen[action] in {MemoryGame.CardState.SOLVED, MemoryGame.CardState.UNSEEN}:
+        # se il tabellone è composto solo da carte seen l'azione random diventa valida (scoprirà carte seen)
+        if action == self.n_cards and np.all((seen == MemoryGame.CardState.SOLVED) | (seen == MemoryGame.CardState.SEEN)):
+            print(f'[MemoryGame] {'':<2} All cards have been seen o solved')
+            flag_random_action = 1
+        elif action == (face_up-1) or action < self.n_cards and seen[action] in {MemoryGame.CardState.SOLVED, MemoryGame.CardState.UNSEEN}:
             # Do nothing (invalid action)
             print(f'[MemoryGame] {'':<2} Card {action} is unseen or solved')
             self.card_solved = True
@@ -84,15 +90,24 @@ class MemoryGame:
 
         # Action is valid: turn card face up
         self.card_solved = False
-        if action == self.n_cards:
+        if action == self.n_cards and flag_random_action == 0:
             # Choose a random unseen card
             unseen_cards = np.where(seen == MemoryGame.CardState.UNSEEN)[0]
             if len(unseen_cards) == 0:
                 # No unseen cards left, invalid action
-                print(f'[MemoryGame] No unseen cards left')
+                print(f'[MemoryGame] {'':<2} No unseen cards left to turn face up')
                 return state.copy(), True
             action = np.random.choice(unseen_cards)
             print(f'[MemoryGame] {'':<2} {'Choosing random:':<18} {action} (unseen card)')
+        elif action == self.n_cards and flag_random_action == 1:
+            # Choose a random seen card
+            seen_cards = np.where(seen == MemoryGame.CardState.SEEN)[0]
+            if len(seen_cards) == 0:
+                # No unseen cards left, invalid action
+                print(f'[MemoryGame] {'':<2} No seen cards left to turn face up')
+                return state.copy(), True
+            action = np.random.choice(seen_cards)
+            print(f'[MemoryGame] {'':<2} {'Choosing random:':<18} {action} (seen card)')
 
         return self.turn_face_up(state, action, flag_condition), False
 

@@ -14,13 +14,17 @@ document.addEventListener("click", async function (e) {
         // token from PLAYER → to ROBOT
         console.log("Token → ROBOT (math)");
 
+        // if it's robot turn the user can't click cards
+        const deckElement = document.querySelector('.deck');
+        deckElement.classList.add('turn-blocked');
+
         // show popup
         turnPopUp("math");
 
         // wait one second
         await new Promise(r => setTimeout(r, 1000));
 
-        // 3️⃣ hide popup
+        // hide popup
         state.isRobotTurn = true;
         state.robotSubject = "math";
         await hideTurnPopup("math");
@@ -41,13 +45,17 @@ document.addEventListener("click", async function(e) {
         // token from PLAYER → to ROBOT
         console.log("Token → ROBOT (geography)");
 
+        // if it's robot turn the user can't click cards
+        const deckElement = document.querySelector('.deck');
+        deckElement.classList.add('turn-blocked');
+
         // show popup
         turnPopUp("geography");
 
         // wait one second
         await new Promise(r => setTimeout(r, 1000));
 
-        // 3️⃣ hide popup
+        // hide popup
         state.isRobotTurn = true;
         state.robotSubject = "geography";
         await hideTurnPopup("geography");
@@ -95,6 +103,8 @@ export function moveReceivedByRobot(msg) {
         setTimeout(() => {
             state.isRobotTurn = false;
             hideTurnPopupUser();
+            const deckElement = document.querySelector('.deck');
+            deckElement.classList.remove('turn-blocked');
         }, 1000);
         
         console.log("Token → Human");

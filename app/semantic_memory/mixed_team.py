@@ -235,6 +235,9 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
         action = map_action(action, self.game.n_cards, self.game_state)
         print(f"[AI] {'':<10} {'Mapped action:':<18} {action}")
 
+        if self.consecutive_agent_steps == 2:
+            action = self.handover_action
+
         if action == self.handover_action:
             # AI hands over to human
             # wait a bit to simulate thinking time

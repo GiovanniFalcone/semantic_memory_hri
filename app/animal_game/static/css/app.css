@@ -134,6 +134,13 @@ body {
     width: 112px;
 }
 
+/* the user can't click a card when is robot turn */
+.turn-blocked {
+    pointer-events: none; 
+    cursor: wait; 
+}
+
+
 /* *************************** */
 /* Animation when board change */
 
