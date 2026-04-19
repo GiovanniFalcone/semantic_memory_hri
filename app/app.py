@@ -381,6 +381,7 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, handle_exit)
     # run app
     print("Running on http://" + IP_ADDRESS + ":5000/ (Press CTRL+C to quit)")
+    print("Condition is " + convert_condition_to_str(experimental_condition))
     print("Server started. Opening URL http://" + IP_ADDRESS + ":5000 ...")
     import time
     time.sleep(1)
