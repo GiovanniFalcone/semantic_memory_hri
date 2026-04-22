@@ -85,12 +85,18 @@ export async function cardClickListener(cardElement, card) {
     const clickedCardPosition = [indexRow, indexCol];
     console.log("Clicked card: " + clickedCardName + " at position " + clickedCardPosition + " at turn " + state.turns);
 
+    // constant used to calculate shuffle trials, can be changed to make shuffle more or less frequent
+    const k = 3; 
+
     if (state.opened.length > 1) {
         const first = state.opened[0];
         const second = state.opened[1];
         if (pairs[first] === second || pairs[second] === first) {
             match();
-            state.consecutiveUnsuccessfulAttempts=0;
+            // update shuffle trials and remaining cards if shuffle is enabled
+            state.shuffleTrials = Math.round(state.remainingCards / k);
+            state.consecutiveUnsuccessfulAttempts = state.shuffleTrials;
+            state.remainingCards -= 2;
             state.cardsFound.push(first);
             state.cardsFound.push(second);
             console.log("Cards found so far: " + state.cardsFound);
@@ -99,6 +105,41 @@ export async function cardClickListener(cardElement, card) {
             // if shuffle is True check if the board should be changed
             if(shuffleBoard == true && state.turns >= 4){
                 unmatch();
+                
+                // compute the number of shuffle trials based on the number of remaining cards, but only at the first shuffle (turn 4), 
+                // then it will be updated after each shuffle based on the remaining cards
+                if(state.turns == 4){
+                    state.shuffleTrials = Math.round(state.remainingCards / k);
+                    state.consecutiveUnsuccessfulAttempts = state.shuffleTrials;
+                }
+
+                // check malus for shuffle
+                // 1. Determina il malus basato sulla conoscenza
+                let malus = 0;
+                const firstSeen = state.seenCards.has(first);
+                const secondSeen = state.seenCards.has(second);
+
+                if (firstSeen && secondSeen) {
+                    // the user knew both cards but still failed to match
+                    malus = 2; 
+                } else if (firstSeen || secondSeen) {
+                    // the user knew one of the two cards
+                    malus = 1;
+                } else {
+                    // the user did not know either card -> exploration
+                    malus = 0.5; // Errore Esplorativo: non ne conoscevi nessuna
+                }
+
+                // 2. update counter
+                state.consecutiveUnsuccessfulAttempts -= malus;
+
+                // 3. add seen cards to the set of seen cards
+                state.seenCards.add(first);
+                state.seenCards.add(second);
+
+                console.log(`Malus is: ${malus}. T = ${state.shuffleTrials}`);
+                
+                // if shuffle trials are over, shuffle the board and reset cards seen, counter, ...
                 await handleShuffle();
             } else {
                 unmatch();

@@ -151,10 +151,7 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
         self.experimental_condtion = -1
 
     def observe(self):
-        s = super().observe()
-        tf_level = round((self.tf_levels-1)*self.human_ctf)
-        s_wrapped = tf_level*self.memory_game_states + s
-        return s_wrapped
+        return MemoryGameEnv.observe(self)
 
     def human_steps(self):
         print("\n" + "="*100)

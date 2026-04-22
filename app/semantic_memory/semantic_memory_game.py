@@ -170,7 +170,7 @@ class MemoryGameEnv(gym.Env):
 
     def __init__(self, game: MemoryGame, max_steps=None):
         self.game = game
-        max_consecutive = 3 # 0 gioca, 1 potrebbe giocare, 2 deve passare
+        max_consecutive = 2 # 0 gioca, 1 potrebbe giocare, 2 deve passare
         N = self.game.n_cards
 
         n_competent = N // 2
@@ -270,7 +270,7 @@ class MemoryGameEnv(gym.Env):
         # Infine aggiungiamo la variabile 'consecutive' (0, 1, 2)
         # Moltiplichiamo old_state per 3 (stati di consecutive) e aggiungiamo il valore
         consecutive = min(self.consecutive_agent_steps, 2)
-        new_state = (old_state * 3) + consecutive
+        new_state = (old_state * 2) + consecutive
 
         # debug
         print(f"[MemoryGameEnv] {'Agent type:':<18} {self.current_agent_type}")

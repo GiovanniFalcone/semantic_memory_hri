@@ -36,7 +36,9 @@ export const state = {
     boardChanging: false,
 
     // shuffle settings
+    seenCards: new Set(),                    // To track cards that have been seen by the user
     shuffleTrials: 0,
+    remainingCards: 16,                     // number of cards that are not yet found, used to calculate shuffle trials
 
     // for communication with server
     socket_address: ''
@@ -56,7 +58,7 @@ const sessionTrialsElement = document.getElementById('session-data-trials');
 export const shuffleTrials = parseInt(sessionTrialsElement?.getAttribute('data-session-trials') ?? '0', 10) || 0;
 
 // Mirror value on the shared state object so other modules can access it via state.shuffleTrials
-state.shuffleTrials = shuffleTrials;
+// state.shuffleTrials = shuffleTrials;
 
 export let id_player = sessionId
 export const url = ''

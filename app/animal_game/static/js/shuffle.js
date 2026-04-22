@@ -12,14 +12,15 @@ import { shuffle } from './utils.js';
 // this function is called when two cards do not match
 export function handleShuffle(){
     return new Promise((resolve) => {
-        state.consecutiveUnsuccessfulAttempts++;
         console.log("Trials: " + state.consecutiveUnsuccessfulAttempts + " <= " + state.shuffleTrials)
 
         printTrials();
         
-        if(state.consecutiveUnsuccessfulAttempts == state.shuffleTrials){
-            state.consecutiveUnsuccessfulAttempts = 0;
+        if(state.consecutiveUnsuccessfulAttempts <= 0){
+            state.consecutiveUnsuccessfulAttempts = state.shuffleTrials;
             state.boardChanging = true;
+
+            state.seenCards.clear(); // reset seen cards when shuffle happens
 
             starCount();
             printMoves();
