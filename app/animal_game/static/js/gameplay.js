@@ -94,9 +94,9 @@ export async function cardClickListener(cardElement, card) {
         if (pairs[first] === second || pairs[second] === first) {
             match();
             // update shuffle trials and remaining cards if shuffle is enabled
+            state.remainingCards -= 2;
             state.shuffleTrials = Math.round(state.remainingCards / k);
             state.consecutiveUnsuccessfulAttempts = state.shuffleTrials;
-            state.remainingCards -= 2;
             state.cardsFound.push(first);
             state.cardsFound.push(second);
             console.log("Cards found so far: " + state.cardsFound);
@@ -114,7 +114,7 @@ export async function cardClickListener(cardElement, card) {
                 }
 
                 // check malus for shuffle
-                // 1. Determina il malus basato sulla conoscenza
+                // 1. Check if the user knew one or both cards (i.e., they were in the set of seen cards)
                 let malus = 0;
                 const firstSeen = state.seenCards.has(first);
                 const secondSeen = state.seenCards.has(second);
