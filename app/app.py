@@ -382,6 +382,9 @@ if __name__ == '__main__':
     # run app
     print("Running on http://" + IP_ADDRESS + ":5000/ (Press CTRL+C to quit)")
     print("Experimental condition is " + convert_condition_to_str(experimental_condition))
+    print("\t - C: Both card choice and curiosity are correct (Competent robot)")
+    print("\t - SC: Card choice is correct but curiosity is wrong (Semi-competent robot)")
+    print("\t - NC: Both card choice and curiosity are wrong (Non-competent robot)")
     print("Server started. Opening URL http://" + IP_ADDRESS + ":5000 ...")
     import time
     time.sleep(1)
