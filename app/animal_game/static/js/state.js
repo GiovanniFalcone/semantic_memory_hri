@@ -37,6 +37,7 @@ export const state = {
 
     // shuffle settings
     seenCards: new Set(),                    // To track cards that have been seen by the user
+    k: 3,                                   // constant used to calculate shuffle trials, can be changed to make shuffle more or less frequent       
     shuffleTrials: 0,
     remainingCards: 16,                     // number of cards that are not yet found, used to calculate shuffle trials
 

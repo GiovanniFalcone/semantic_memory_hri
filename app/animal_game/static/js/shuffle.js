@@ -10,11 +10,51 @@ import { shuffle } from './utils.js';
 
 // Handle shuffle logic
 // this function is called when two cards do not match
-export function handleShuffle(){
+export function handleShuffle(firstCard, secondCard) {
     return new Promise((resolve) => {
+        // compute the number of shuffle trials based on the number of remaining cards, but only at the first shuffle (turn 4), 
+        // then it will be updated after each shuffle based on the remaining cards
+        if(state.turns == 4){
+            state.shuffleTrials = Math.round(state.remainingCards / state.k);
+            state.consecutiveUnsuccessfulAttempts = state.shuffleTrials;
+        }
+        
+        // check malus for shuffle
+        // 1. Check if the user knew one or both cards (i.e., they were in the set of seen cards)
+        let malus = 0;
+        const firstSeen = state.seenCards.has(firstCard);
+        const secondSeen = state.seenCards.has(secondCard);
+        
+        if (firstSeen && secondSeen) {
+            // the user knew both cards but still failed to match
+            malus = 2; 
+        } else if (firstSeen || secondSeen) {
+            // the user knew one of the two cards
+            malus = 1;
+        } else {
+            // the user did not know either card -> exploration 
+            malus = 0.5;
+        }
+        
+        // 2. update counter
+        state.consecutiveUnsuccessfulAttempts -= malus;
+
+        // 3. color text of trails in order to give feedback to the user about how close they are to shuffle
+        const desc = document.querySelector('.trials');
+        desc.style.color = 'red';
+        
+        // 4. add seen cards to the set of seen cards
+        state.seenCards.add(firstCard);
+        state.seenCards.add(secondCard);
+        
+        console.log(`Malus is: ${malus}. T = ${state.shuffleTrials}`);
         console.log("Trials: " + state.consecutiveUnsuccessfulAttempts + " <= " + state.shuffleTrials)
 
         printTrials();
+
+        setTimeout(() => {
+            desc.style.color = '';  // reset color after feedback
+        }, 1500);                   // feedback duration
         
         if(state.consecutiveUnsuccessfulAttempts <= 0){
             state.consecutiveUnsuccessfulAttempts = state.shuffleTrials;
