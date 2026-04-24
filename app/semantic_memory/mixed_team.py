@@ -139,7 +139,10 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
         self.full_action_space = spaces.Discrete(1 + self.full_action_space.n)
         self.tf_levels = tf_levels
         self.ai_hampered_competence = ai_hampered_competence
-        self.human_ctf = 0.2 if human_ctf == "low" else 1
+
+        # rimosso: non c'è più distinzione nello scenario reale
+        # self.human_ctf = 0.2 if human_ctf == "low" else 1
+
         # debug info
         print(f"[SemanticMemory] {'Action space:':<18} {self.action_space}\n",
               f"                {'Observation space:':<15} {self.observation_space}\n",
@@ -309,7 +312,7 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
 
 class TrustAwareSMGEnv(SemanticMemoryGameEnv):
     def __init__(self, game: MemoryGame, client_socket, ai_hampered_competence: float = 0, tf_levels: int = 3, max_steps=None):
-        super().__init__(game, ai_hampered_competence, tf_levels, max_steps, client_socket, human_ctf)
+        super().__init__(game, ai_hampered_competence, tf_levels, max_steps, client_socket) #, human_ctf)
 
     def reset(self, seed=None, options=None):
         s, info = super().reset(seed, options)
@@ -321,7 +324,7 @@ def get_make_env(env_id, client_socket, human_ctf):
 
     if env_id == 'mixed_team_ctf':
         def make_env(client_socket):
-            return TrustAwareSMGEnv(game, client_socket, human_ctf)
+            return TrustAwareSMGEnv(game, client_socket) #, human_ctf)
         return make_env
 
     raise ValueError(f'Unknown env_id: {env_id}')
@@ -359,7 +362,7 @@ def handle_exit(client_socket, id_player, *args):
     print("[INFO] Exiting...\n")
     sys.exit(0)
 
-def main(human_ctf):
+def main():
     print("\n" + "="*100)
     print("[ENV] START")
     print("-"*100)
@@ -369,7 +372,7 @@ def main(human_ctf):
     # handle CTRL+C with reference to client_socket and ID_PLAYER
     signal.signal(signal.SIGINT, lambda *args: handle_exit(client_socket, ID_PLAYER, *args))
     env_id = "mixed_team_ctf"
-    make_env = get_make_env(env_id, client_socket, human_ctf)
+    make_env = get_make_env(env_id, client_socket) #, human_ctf)
     env = make_env(client_socket)
 
     n_steps = 400_000
@@ -403,11 +406,14 @@ def main(human_ctf):
 
 
 if __name__ == "__main__":
-    import sys
-    human_ctf = sys.argv[1] # "low" | "high"
-    if human_ctf not in ["low", "high"]:
-        print("Parameter must be 'low' or 'high'")
-        sys.exit(0)
-    main(human_ctf)
+    
+    # import sys
+    # human_ctf = sys.argv[1] # "low" | "high"
+    # if human_ctf not in ["low", "high"]:
+    #     print("Parameter must be 'low' or 'high'")
+    #     sys.exit(0)
+    # main(human_ctf)
+
+    main()
     sys.exit(0)
 
