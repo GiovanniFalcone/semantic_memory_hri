@@ -379,6 +379,7 @@ def handle_exit(*args):
 if __name__ == '__main__':
     # handle CTRL+C
     signal.signal(signal.SIGINT, handle_exit)
+
     # run app
     print("*" * 100)
     print("Running on http://" + IP_ADDRESS + ":5000/ (Press CTRL+C to quit)")
@@ -388,7 +389,9 @@ if __name__ == '__main__':
     print("\t - NC: Both card choice and curiosity are wrong (Non-competent robot)")
     print("Server started. Opening URL http://" + IP_ADDRESS + ":5000 ...")
     print("*" * 100)
+
     import time
     time.sleep(1)
     webbrowser.open(f"http://{IP_ADDRESS}:5000", autoraise=True)
+    
     socketio.run(app, host=IP_ADDRESS, port=5000, debug=True, use_reloader=False, log_output=False)
