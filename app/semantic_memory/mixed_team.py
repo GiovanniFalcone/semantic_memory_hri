@@ -145,8 +145,8 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
 
         # debug info
         print(f"[SemanticMemory] {'Action space:':<18} {self.action_space}\n",
-              f"                {'Observation space:':<15} {self.observation_space}\n",
-              f"                {'Human ctf:':<18} {self.human_ctf}\n")
+              f"                {'Observation space:':<15} {self.observation_space}\n")
+        #      f"                {'Human ctf:':<18} {self.human_ctf}\n")
         ############ 
         # connection
         self.client_socket = client_socket
@@ -319,7 +319,7 @@ class TrustAwareSMGEnv(SemanticMemoryGameEnv):
         return s, info
 
 
-def get_make_env(env_id, client_socket, human_ctf):
+def get_make_env(env_id, client_socket): #, human_ctf):
     game = MemoryGame(np.array([1, 0, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14])) # 8 coppie
 
     if env_id == 'mixed_team_ctf':
