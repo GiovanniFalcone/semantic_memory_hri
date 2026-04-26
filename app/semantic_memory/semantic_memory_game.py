@@ -215,14 +215,11 @@ class MemoryGameEnv(gym.Env):
         non_competent_indices = []
 
         if self.current_agent_type == 'math':
-            # agent competence
-            competent_indices = [0, 1, 2, 3, 12, 13, 14, 15]
-            # human competence
-            non_competent_indices = [4, 5, 6, 7, 8, 9, 10]
+            competent_indices = [0, 1, 2, 3, 12, 13, 14, 15]        # agent competence
+            non_competent_indices = [4, 5, 6, 7, 8, 9, 10]          # human competence
         else:
-            # agent competence
-            competent_indices = [4, 5, 6, 7, 8, 9, 10, 11]
-            non_competent_indices = [0, 1, 2, 3, 12, 13, 14, 15] 
+            competent_indices = [4, 5, 6, 7, 8, 9, 10, 11]          # agent competence
+            non_competent_indices = [0, 1, 2, 3, 12, 13, 14, 15]    # human competence
 
         N = self.game.n_cards
         # my_n = N // 2 + 1

@@ -68,7 +68,41 @@ def hamper_competence(card, category, competence, n_cards):
         #return card if np.random.rand() < competence else np.random.choice(n_cards)
     return card
 
-def map_action(action: int, n_cards: int, game_state) -> int:
+def map_action_geo(action: int, n_cards: int, game_state) -> int:
+    """
+    Funzione usata quando nel set di azioni dell'agente non è presente quella che scopre carte che non sono di sua competenza.
+    """
+    # 0..15 -> scopre una delle 16 carte
+    # 16 -> scopre una carta a caso tra quelle non competenti
+    # 17 handover
+    # totale: 16 + 1 + 1 = 18 azioni
+
+    # 0 .. 7 -> scopre una delle 8 carte in cui l'agente è competente
+    # 8 -> scopre una carta a caso tra tutte le carte
+    # 9 handover
+    # totale: (16/2 C cards) + 1 (random) + 1 (handover) = 10 azioni
+
+    # [C, C, C, C, C, C, C, C, NC] 0.. 8
+    # [NC, NC, NC, NC, C, C, C, C, C, C, C, C, NC, NC, NC, NC] 0..15
+    if action in [0, 1, 2, 3, 4, 5, 6, 7]:
+        # action 0 -> carta 4 (partendo da 0)
+        # action 1 -> carta 5
+        # action 2 -> carta 6
+        # action 3 -> carta 7
+        # action 4 -> carta 8
+        # action 5 -> carta 9
+        # action 6 -> carta 10
+        # action 7 -> carta 11
+        return action + 4
+    
+    # apre randomicamente una delle carte non viste
+    elif action == 8:
+        return 16
+    
+    elif action == 9: 
+        return 17 # handover
+
+def map_action_math(action: int, n_cards: int, game_state) -> int:
     # 0..15 -> scopre una delle 16 carte
     # 16 -> scopre una carta a caso tra quelle non competenti
     # 17 handover
@@ -232,7 +266,10 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
 
     def step(self, action):
         print(f"[AI] {'':<10} {'Info:':<18} state: {self.game_state} | action: {action}")
-        action = map_action(action, self.game.n_cards, self.game_state)
+        if self.current_agent_type == "geography":
+            action = map_action_geo(action, self.game.n_cards, self.game_state)
+        else:
+            action = map_action_math(action, self.game.n_cards, self.game_state)
         print(f"[AI] {'':<10} {'Mapped action:':<18} {action}")
 
         if self.consecutive_agent_steps == 2:
