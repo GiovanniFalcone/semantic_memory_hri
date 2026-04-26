@@ -10,10 +10,12 @@ Dove 1 è l'ID del giocatore, e 0/1/2 sono le condizioni.
 
 Si aprirà automaticamente la schermata del gioco.
 
-A questo punto, aprire un'altra scheda del terminale e navigare nella cartella **semantic_memory** ed eseguire il comando:
+Successivamente, aprire un'altra scheda del terminale e navigare nella cartella **semantic_memory** ed eseguire il comando:
 ```sh
-py mixed_team.py high
+py mixed_team.py
 ```
-Il parametro può essere "high" oppure "low" a seconda del trust factor.
 
-A questo punto, ritornare sulla schermata del gioco e andare avanti nel tutorial, per poi giocare.
+Infine, ritornare sulla schermata del gioco e andare avanti nel tutorial, per poi giocare.
+
+## Training
+Per più informazioni: https://github.com/rikifunt/tya-associative-memory/tree/main
