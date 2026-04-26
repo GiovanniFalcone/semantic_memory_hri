@@ -98,8 +98,8 @@ class InteractionModule:
         self.speak(sentence)
 
     def get_curiosity(self, card_name, subject, condition):
-        if condition in [0, 1]:
-            # C or SC
+        if condition == 0:
+            # C
             if subject == "geography":
                 return random.choice(self.geo_competence[card_name])
             elif subject == "math":
@@ -107,7 +107,7 @@ class InteractionModule:
             else:
                 return None
         else:
-            # NC
+            # NC or N
             if subject == "geography":
                 return random.choice(self.geo_incompetence[card_name])
             elif subject == "math":

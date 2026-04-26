@@ -92,5 +92,31 @@
         "La Spagna è uno dei paesi più aridi d’Europa, soprattutto nel sud-est.",
         "Il fiume Tajo nasce in Spagna ma sfocia in Portogallo.",
         "La Spagna è divisa in 17 comunità autonome."
+    ],
+
+    "buenos_aires": [
+        "Buenos Aires è la capitale più grande del Sud America.",
+        "Sapevi che Buenos Aires si trova sulla costa del Rio de la Plata, un estuario enorme.",
+        "Buenos Aires è una delle città più piovose dell’America Latina.",
+        "Curiosità su Buenos Aires: Il clima è temperato, con estati calde e inverni miti.",
+        "Buenos Aires è divisa in 48 quartieri, chiamati 'barrios'.",
+        "Il punto più alto di Buenos Aires è il Cerro de la Gloria, a soli 120 m s.l.m.",
+        "Buenos Aires è una città molto pianeggiante, senza colline significative.",
+        "Sapevi che Buenos Aires ha un sistema di trasporto pubblico molto esteso, con metropolitana, autobus e treni?",
+        "La città di Buenos Aires si estende su una superficie di circa 203 km².",
+        "Buenos Aires è famosa per i suoi ampi viali e le piazze monumentali."
+    ],
+
+    "argentina": [
+        "L’Argentina è il secondo paese più grande del Sud America, dopo il Brasile.",
+        "L’Argentina è attraversata dalle Ande, la catena montuosa più lunga del mondo.",
+        "Curiosità sull’Argentina: Il punto più alto è l’Aconcagua (6.959 m), la montagna più alta delle Americhe.",
+        "L’Argentina ha una costa lunga circa 4.989 km lungo l’Oceano Atlantico.",
+        "Sapevi che Il fiume più lungo dell’Argentina è il Paraná, con circa 4.880 km di lunghezza totale (incluso il Rio de la Plata)?",
+        "Curiosità sull’Argentina: Il clima varia dal subtropicale al sud al freddo polare in Patagonia.",
+        "L’Argentina confina con Cile, Bolivia, Paraguay, Brasile e Uruguay.",
+        "La capitale Buenos Aires si trova sulla costa est dell’Argentina, sul Rio de la Plata.",
+        "L’Argentina è famosa per le sue vaste pianure, chiamate Pampas, ideali per l’agricoltura e l’allevamento.",
+        "Il territorio argentino include anche la Terra del Fuoco, un arcipelago condiviso con il Cile."
     ]
 }
