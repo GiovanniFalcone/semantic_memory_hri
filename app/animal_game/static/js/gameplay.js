@@ -53,6 +53,12 @@ export function createCards() {
  * Handle card clicks
  */
 export async function cardClickListener(cardElement, card) {
+    // prevent rapid clicks during user's turn
+    if (!state.isRobotTurn && state.userClickDisabled) {
+        console.log("User click ignored to prevent rapid clicking.");
+        return;
+    }
+
     // if pair is already found the card of pair can't be clicked
     // or the game board is changing
     if (cardElement.classList.contains('match') || state.boardChanging) {
@@ -84,8 +90,6 @@ export async function cardClickListener(cardElement, card) {
 
     const clickedCardPosition = [indexRow, indexCol];
     console.log("Clicked card: " + clickedCardName + " at position " + clickedCardPosition + " at turn " + state.turns);
-
-    
 
     if (state.opened.length > 1) {
         const first = state.opened[0];
@@ -164,6 +168,14 @@ export async function cardClickListener(cardElement, card) {
     if (state.isMatch) {
         state.myMinutes = 0;
         state.mySeconds = 0;
+    }
+
+    // disable user clicks for 500ms after a click during user's turn
+    if (!state.isRobotTurn) {
+        state.userClickDisabled = true;
+        setTimeout(() => {
+            state.userClickDisabled = false;
+        }, 1000);
     }
 }
 

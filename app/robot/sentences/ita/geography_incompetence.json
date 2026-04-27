@@ -3,8 +3,8 @@
         "Sapevi che Roma è la capitale della Francia? Infatti è nota per la sua Torre Eiffel!",
         "Curiosità: a Roma è possibile trovare il museo del Louvre, a pochi passi dal centro romano.",
         "Tra i piatti tipici romani ci sono sicuramente i tacos!",
-        "Roma è il capoluogo della Campania, lo sapevi, vero?",
-        "Roma è una città freddissima, con temperature sempre al di sotto dello zero, lo sapevi?",
+        "Sai che Roma è il capoluogo della Campania, lo sapevi, vero?",
+        "Ecco una curiosità: Roma è una città freddissima, con temperature sempre al di sotto dello zero, lo sapevi?",
         "Roma è famosa per la sua torre Eiffel, lo sapevi?"
     ],
 
@@ -23,7 +23,8 @@
         "Sapevi che Parigi è la capitale del Canada?",
         "Tra i monumenti più importanti di Parigi c'è il Colosseo, lo sapevi, vero?",
         "Sapevi che a Parigi scorre il fiume Po?",
-        "Sai che a Parigi i cittadini parlano il tedesco?"
+        "Sai che a Parigi i cittadini parlano il tedesco?",
+        "Curiosità su Parigi: la città è il capoluogo della Sicilia!"
     ],
 
     "france": [
@@ -38,7 +39,8 @@
         "Madrid è la capitale della Francia, lo sapevi?",
         "Sapevi che tutte le strade portando a Madrid? è un detto molto famoso!",
         "A madrid è possibile trovare il museo del Louvre, a pochi passi dal centro della città.",
-        "Tra i piatti tipici di Madrid ci sono gli gnocchi al ragù!"
+        "Tra i piatti tipici di Madrid ci sono gli gnocchi al ragù!",
+        "Madrid è il capoluogo della Lombardia, lo sapevi, vero?"
     ],
 
     "spain": [

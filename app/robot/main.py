@@ -26,7 +26,7 @@ class ManagerNode:
         self.robot_1 = robot_1                            # Robot object
         self.language = ManagerNode.LANGUAGE              # Language used by the robot                      
         self.interaction_1 = InteractionModule(robot_1, language)
-        self.robot_1 = robot_2                            # Robot object                  
+        self.robot_2 = robot_2                            # Robot object                  
         self.interaction_2 = InteractionModule(robot_2, language)
         self.player_id = -1                               # Player id used for Flask route      
         self.experimental_condition = None    
@@ -38,7 +38,11 @@ class ManagerNode:
 
     def _send_to_flask(self, route, json_data):
         try:
+            print("[Manager] Sending info to Flask: ", json_data)
+            start_time = time.time()
             requests.post("http://" + ManagerNode.IP_ADDRESS + ":5000/" + route, json=json_data)
+            elapsed_time = time.time() - start_time
+            print(f"[Manager] Request completed in {elapsed_time:.3f}s")
         except requests.exceptions.RequestException as e:
             print(f"[Manager] HTTP error request: {e}")    
     
@@ -110,10 +114,11 @@ class ManagerNode:
         print(f"[Manager] {'Received game data':<20}: card '{card_name}' | subject '{subject}' | pairs '{n_pairs}'")
 
         # Decide randomly whether the robot will utter a curiosity
-        speak = random.choices([0, 1], weights=[0.7, 0.3])[0]
+        speak = random.choices([0, 1], weights=[0.6, 0.4])[0]
         if not speak:
-            print(f"{'[Manager] Uttering curiosity':<30}: 'No'\n")
+            print(f"{'[Manager] Uttering curiosity':<30}: 'No'")
             self._send_robot_speech(self.player_id, speech=False)
+            print("[Manager] Sending info to Flask.\n")
             return
 
         # Do not speak if the game is already finished
@@ -125,14 +130,16 @@ class ManagerNode:
             print(f"{'[Manager] Uttering curiosity':<30}: 'Yes'")
             self._send_robot_speech(self.player_id, speech=True, subject=subject, status="uttering")
 
+            # since both robot load the same data, it doesn't matter which one is used to get the curiosity
             sentence = self.interaction_1.get_curiosity(card_name, subject, self.experimental_condition)
-            time.sleep(1.0)
+            
+            #time.sleep(1.0)
             if subject == "math":
                 print(f"{'[Manager] Robot speaking':<30}: 1\n")
-                self.interaction_1.speak(sentence)
+                self.interaction_2.speak(sentence)
             else:
                 print(f"{'[Manager] Robot speaking':<30}: 2\n")
-                self.interaction_2.speak(sentence)
+                self.interaction_1.speak(sentence)
 
             self._send_robot_speech(self.player_id, speech=True, subject=subject, status="uttered")
 

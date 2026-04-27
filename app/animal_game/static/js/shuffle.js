@@ -12,7 +12,7 @@ import { shuffle } from './utils.js';
 // this function is called when two cards do not match
 export function handleShuffle(firstCard, secondCard) {
     return new Promise((resolve) => {
-        // compute the number of shuffle trials based on the number of remaining cards, but only at the first shuffle (turn 4), 
+        // compute the number of shuffle trials based on the number of remaining cards, but only at the first shuffle (turn 0), 
         // then it will be updated after each shuffle based on the remaining cards
         if(state.turns == 4){
             state.shuffleTrials = Math.round(state.remainingCards / state.k);

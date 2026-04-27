@@ -4,7 +4,7 @@
     "n_cols":           4,
     "gpt":              false,
     "HRI":              true,
-    "ip":               "localhost", 
+    "ip":               "127.0.0.1", 
     "language":         "ita",
     "player_name":      "",
     "port":             5000,

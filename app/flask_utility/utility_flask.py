@@ -180,6 +180,7 @@ class UtilityFlask:
                     if self.is_agent_turn or is_turn_even: time.sleep(0.5) 
                     card_name = player_move.get('open_card_name')
                     subject = "geography" if card_name in self.game_manager.geography_cards else "math"
+                    print(f"{'Sending move':<20}: card '{card_name}' | subject '{subject}' | pairs '{n_pairs}'")
                     self.socket_manager.send_to_robot({"card_clicked": card_name, "subject": subject, "n_pairs": n_pairs})
                     print(f"{'Emitted move to':<20}: robot application")
 
@@ -378,13 +379,12 @@ class UtilityFlask:
 
         if self.socket_manager.is_robot_connected and not board_changed:
             # wait some seconds before sending info to robot in order to give enough time to the user to memorize the card
-            time.sleep(1.0)
+            # time.sleep(1.0)
             # send the card's name to the robot application in order to utter a curiosity
             subject = "geography" if card_name in self.game_manager.geography_cards else "math"
             self.socket_manager.send_to_robot({"card_clicked": card_name, "subject": subject, "n_pairs": n_pairs})
             print(f"{'Emitted move to':<20}: robot application")
-            # ASPETTA qui: il thread si blocca finché non arriva la notifica "finished"
-            # Mettiamo un timeout di sicurezza (es. 10 sec) per evitare blocchi infiniti
+            # wait until robot's response
             self.ready_for_next_move.wait(timeout=10.0)
         else:
             # wait some seconds before sending info to RL agent in order to not click too fast the cards (only used when there is no robot)

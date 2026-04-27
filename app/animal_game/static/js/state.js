@@ -42,7 +42,7 @@ export const state = {
     remainingCards: 16,                     // number of cards that are not yet found, used to calculate shuffle trials
 
     // for communication with server
-    socket_address: ''
+    socket_address: '',
 };
 
 export const numCards = () => state.possibleCards.length;
