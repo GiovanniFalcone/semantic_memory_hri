@@ -151,7 +151,7 @@ def run_menu_in_background():
             # Show admin menu
             res = Menu._handle_admin_menu()
             
-            if not res:
+            if res in [None, ""] or res not in [0, 1, 2]:
                 Util.formatted_debug_message("Exiting from menu...", level='INFO')
                 app_state.exit_pressed = True
                 threading.Timer(2.0, os._exit, args=[0]).start()
@@ -190,9 +190,15 @@ def index():
     """Home page route - shows home immediately and handles menu in background."""
     global experimental_condition, id_player
 
+    # not used anymore since menu is now in background, but keep it here in case we want to show menu on first visit again
     # If this is not the first start and menu is not already running, start it in background
-    if not app_state.first_start and not app_state.exit_pressed and not app_state.menu_thread_active:
-        run_menu_in_background()
+    # if not app_state.first_start and not app_state.exit_pressed and not app_state.menu_thread_active:
+    #    run_menu_in_background()
+
+    # close server after first game
+    if not app_state.first_start:
+        Util.formatted_debug_message("Exiting from server...", level='INFO')
+        threading.Timer(2.0, os._exit, args=[0]).start()
     
     # Set first_start to False after first visit
     if app_state.first_start:
@@ -259,8 +265,8 @@ def rl_agent_exit():
         return jsonify({'error': 'No client instance'}), 400
     
 @app.route('/robot_exit', methods=["POST"])
-def robot_exit(id):
-    user_id = id  # Use URL parameter, not session
+def robot_exit():
+    user_id = id_player
     Util.formatted_debug_message(f"Received data for closing connection with Robot", level='INFO')
     # get instance for current user
     utility_flask = get_utility_flask(user_id, "Exit")

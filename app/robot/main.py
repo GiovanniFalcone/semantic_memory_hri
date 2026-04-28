@@ -83,11 +83,7 @@ class ManagerNode:
 
         if "game_ended" in json_data:
             self.interaction_1.goodbye()
-            print("")
-            res = input("Close server? y/n ")
-            if res == 'y':
-                return 1
-            return 0
+            return 1
 
         if "board_changed" in json_data:
             print(f"{'[Manager] Uttering curiosity':<30}: 'No' (cause board is changed)\n")
@@ -114,7 +110,7 @@ class ManagerNode:
         print(f"[Manager] {'Received game data':<20}: card '{card_name}' | subject '{subject}' | pairs '{n_pairs}'")
 
         # Decide randomly whether the robot will utter a curiosity
-        speak = random.choices([0, 1], weights=[0.6, 0.4])[0]
+        speak = 0# random.choices([0, 1], weights=[0.65, 0.35])[0]
         if not speak:
             print(f"{'[Manager] Uttering curiosity':<30}: 'No'")
             self._send_robot_speech(self.player_id, speech=False)
@@ -144,6 +140,9 @@ class ManagerNode:
             self._send_robot_speech(self.player_id, speech=True, subject=subject, status="uttered")
 
     def run(self):
+        import threading
+        self.stop_event = threading.Event()
+
         # connection with server flask using socket
         SERVER_IP = Util.get_from_json_file("config")['ip'] 
         SERVER_PORT = int(Util.get_from_json_file("config")['robot_1_port'])
@@ -153,21 +152,43 @@ class ManagerNode:
         # connect to Flask in order to receive the actions from rl agent
         self.client_socket = self.connect_to_server(SERVER_IP, SERVER_PORT)
         # once the person is detected handle the game with that person
+        game_thread = threading.Thread(target=self.game_loop, daemon=True)
+        game_thread.start()
+
+        try:
+            # waiting without consuming cpu until the game thread finishes or a KeyboardInterrupt is received
+            while not self.stop_event.is_set():
+                self.stop_event.wait(timeout=1.0) 
+        except KeyboardInterrupt:
+            print("[Manager] Interruzione rilevata...")
+            self.handle_exit()
+
+        print("**********************************************")
+        print("[Manager] Game ended. Exit from program...")
+        print("**********************************************")
+        # Close socket connection gracefully
+        self.close_socket()
+        # manager_node.close_socket()
+        os._exit(0)
+    
+    def game_loop(self):
+        """Loop eseguito nel thread secondario"""
         while True:
             res = self.handle_game(self.client_socket)
-            if res: break
+            if res == 1:
+                break
 
-        # close connection
-        self._send_to_flask(route="robot_speech", json_data={"close": True})
-        sys.exit(1)
-    
+        self.stop_event.set()
+
     def close_socket(self):
         """Close the socket connection gracefully."""
         if self.client_socket:
             try:
                 self.client_socket.close()
                 print("[Manager] Socket connection closed.")
-                sys.exit(1)
+                self._send_to_flask(route=f"robot_exit", json_data={"close_connection": True})
+                print("[Manager] Notified Flask about robot exit.")
+                os._exit(1)
             except Exception as e:
                 print(f"[Manager] Error closing socket: {e}")
 
@@ -185,15 +206,14 @@ class ManagerNode:
 
         return client_socket
 
-def handle_exit(manager_node, *args):
-    # id = manager_node.get_player_id()
-    # manager_node._send_to_flask(route=f"robot_exit/{id}", json_data={"close_connection": True})
-    print("**********************************************")
-    print("[Manager] CTRL+C pressed. Exit from program...")
-    print("**********************************************")
-    # Close socket connection gracefully
-    manager_node.close_socket()
-    sys.exit(0)
+    def handle_exit(self): #handle_exit(manager_node, *args):
+        print("**********************************************")
+        print("[Manager] CTRL+C pressed. Exit from program...")
+        print("**********************************************")
+        # Close socket connection gracefully
+        self.close_socket()
+        # manager_node.close_socket()
+        os._exit(0)
 
 if __name__ == '__main__':
     # get robot from configuration file and create the instance 
@@ -223,6 +243,6 @@ if __name__ == '__main__':
     manager_node = ManagerNode(robot_1, robot_2)
     
     # handle CTRL+C with reference to manager_node
-    signal.signal(signal.SIGINT, lambda *args: handle_exit(manager_node, *args))
+    # signal.signal(signal.SIGINT, lambda *args: handle_exit(manager_node, *args))
     
     manager_node.run()
