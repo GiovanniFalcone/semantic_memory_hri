@@ -86,7 +86,7 @@ class ManagerNode:
             return 1
 
         if "board_changed" in json_data:
-            print(f"{'[Manager] Uttering curiosity':<30}: 'No' (cause board is changed)\n")
+            print(f"{'[Manager] Uttering curiosity':<30}: 'No' (cause board is changed)")
             # Robot will not utter anything when board changed
             self._send_robot_speech(self.player_id, speech=False)
             return 0
@@ -110,7 +110,7 @@ class ManagerNode:
         print(f"[Manager] {'Received game data':<20}: card '{card_name}' | subject '{subject}' | pairs '{n_pairs}'")
 
         # Decide randomly whether the robot will utter a curiosity
-        speak = 0# random.choices([0, 1], weights=[0.65, 0.35])[0]
+        speak = random.choices([0, 1], weights=[0.65, 0.35])[0]
         if not speak:
             print(f"{'[Manager] Uttering curiosity':<30}: 'No'")
             self._send_robot_speech(self.player_id, speech=False)
@@ -131,13 +131,14 @@ class ManagerNode:
             
             #time.sleep(1.0)
             if subject == "math":
-                print(f"{'[Manager] Robot speaking':<30}: 1\n")
+                print(f"{'[Manager] Robot speaking':<30}: 1")
                 self.interaction_2.speak(sentence)
             else:
-                print(f"{'[Manager] Robot speaking':<30}: 2\n")
+                print(f"{'[Manager] Robot speaking':<30}: 2")
                 self.interaction_1.speak(sentence)
 
             self._send_robot_speech(self.player_id, speech=True, subject=subject, status="uttered")
+            print("\n")
 
     def run(self):
         import threading

@@ -184,13 +184,6 @@ class UtilityFlask:
                     self.socket_manager.send_to_robot({"card_clicked": card_name, "subject": subject, "n_pairs": n_pairs})
                     print(f"{'Emitted move to':<20}: robot application")
 
-                # notify robot application in order to save on csv
-                # (only when robot send a response the data are saved on csv,
-                # this is done in order to save if robot has utter something or not)
-                if self.socket_manager.is_robot_connected and board_changed:
-                    self.socket_manager.send_to_robot({"board_changed": True})
-                    print(f"{'Emitted move to':<20}: robot application")
-
                 # since robot is not connected speech will be always False
                 # thus, we can write on log file and update csv file
                 if not self.socket_manager.is_robot_connected:
@@ -203,6 +196,12 @@ class UtilityFlask:
                     if self.socket_manager.is_rl_socket_connected:
                         self.socket_manager.send_to_rl_agent({"has_board_changed": True})
                         print(f"{'Emitted changing to':<20}: RL application") 
+                    # notify robot application in order to save on csv
+                    # (only when robot send a response the data are saved on csv,
+                    # this is done in order to save if robot has utter something or not)
+                    if self.socket_manager.is_robot_connected:
+                        self.socket_manager.send_to_robot({"board_changed": True})
+                        print(f"{'Emitted changing to':<20}: robot application")
                     self._handle_board_change(new_board)
                     
                 return jsonify({'message': 'User move received'}), 200
@@ -236,6 +235,8 @@ class UtilityFlask:
                 self.socket_manager.send_to_rl_agent({"human_action": handover_action, "robot_type": robot_type})
                 print(f"{'Emitted data to':<20}: RL application (robot turn: True | robot_type: {robot_type})") 
         else:
+            # wait a bit to simulate thinking time
+            time.sleep(1)
             # handover from agent
             socketio.emit('AgentHandover', json.dumps({"turn": False}))
             print(f"{'Emitted handover to':<20}: UI") 
@@ -260,7 +261,7 @@ class UtilityFlask:
         data = request.get_json()
         agent_move = data.get('agent_move') 
         robot_type = agent_move.get('robot_type')
-        has_provided_a_wrong_card = agent_move.get('is_wrong_card')
+        has_provided_a_wrong_card = agent_move.get('is_wrong_card', False)
 
         if agent_move is not None:
             card_action = agent_move.get('action')
@@ -292,22 +293,23 @@ class UtilityFlask:
         data = request.get_json()
         speech = data.get('speech')
         has_robot_utter_something = data.get('speech_status', None)
+        which_subject = data.get('subject', None)
 
         if speech:
             if has_robot_utter_something == "uttering":
-                print(f"{'Speech status':<20}: uttering")
+                print(f"{'Speech status':<20}: uttering ({which_subject})")
                 socketio.emit('Speech', json.dumps(data))
                 print(f"{'Emitted status to':<20}: UI (show pop-up)")
-                self.game_manager.dictionary["game"]["robot_speech"] = True
+                self.game_manager.dictionary["game"]["robot_speech"] = which_subject
                 self._write_game_state_on_files()
                 return jsonify({'message': 'curiosity - uttering'}), 200
             else: 
                 # uttered
-                print(f"{'Speech status to':<20}: uttered")
+                print(f"{'Speech status to':<20}: uttered ({which_subject})")
                   # wait a bit before removing the pop-up
                 socketio.emit('Speech', json.dumps(data))
                 print(f"{'Emitted status to':<20}: UI (remove pop-up)")
-                if self.is_agent_turn: time.sleep(0.5)
+                if self.is_agent_turn: time.sleep(2.0)
                 self.ready_for_next_move.set()
                 if self._is_game_ended():
                     self.socket_manager.send_to_robot({"game_ended": True})
@@ -379,7 +381,7 @@ class UtilityFlask:
 
         if self.socket_manager.is_robot_connected and not board_changed:
             # wait some seconds before sending info to robot in order to give enough time to the user to memorize the card
-            # time.sleep(1.0)
+            time.sleep(1.0)
             # send the card's name to the robot application in order to utter a curiosity
             subject = "geography" if card_name in self.game_manager.geography_cards else "math"
             self.socket_manager.send_to_robot({"card_clicked": card_name, "subject": subject, "n_pairs": n_pairs})

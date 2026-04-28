@@ -8,10 +8,20 @@ import { id_player, language, state } from './state.js';
 /**
  * Shuffle the array of cards
  * @param {*} array 
- * @returns 
+ * @returns {array} shuffled array
  */
 export function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
+    const shuffled = [...array];
+    
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        // generate a random index from 0 to i
+        const j = Math.floor(Math.random() * (i + 1));
+        
+        // Scambia gli elementi
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    return shuffled;
 }
 
 /**

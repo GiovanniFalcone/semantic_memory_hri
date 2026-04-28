@@ -277,8 +277,6 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
 
         if action == self.handover_action:
             # AI hands over to human
-            # wait a bit to simulate thinking time
-            time.sleep(1)
             print(f'[AI] {"":<10} handover to Human\n')
             print("="*100 + "\n")
 

@@ -101,6 +101,7 @@ export function moveReceivedByRobot(msg) {
         }, 1000);
         
         setTimeout(() => {
+            state.hasProvidedWrongCard = false;
             state.isRobotTurn = false;
             hideTurnPopupUser();
             const deckElement = document.querySelector('.deck');
