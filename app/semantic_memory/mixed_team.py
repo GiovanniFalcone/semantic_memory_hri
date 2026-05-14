@@ -297,7 +297,7 @@ class SemanticMemoryGameEnv(MemoryGameEnv):
                 human_competence = [0, 1, 2, 3, 12, 13, 14, 15]
 
             action = hamper_competence(action, human_competence, self.ai_hampered_competence, self.game.n_cards)
-            s, *step, is_card_invalid = super().step(action, False, self.experimental_condtion)
+            s, *step, is_card_invalid = super().step(action, False, self.experimental_condtion, self.current_agent_type)
 
             card = self.game.second_face_up if self.game.second_turn else self.game_state[1]
             print(f"[AI] {'':<10} {'Card face up:':<18} {card} ({self.current_agent_type})")

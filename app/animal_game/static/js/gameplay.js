@@ -70,7 +70,10 @@ export async function cardClickListener(cardElement, card) {
     document.querySelectorAll(".card").forEach(card => {
         card.classList.remove('hint');
         card.classList.remove('flipInY');
-        document.querySelector('.speech-bubble').style.display = 'none';
+        const speechBubble = document.querySelector('.speech-bubble');
+        if (speechBubble) {
+            speechBubble.style.display = 'none';
+        }
     });
 
     if (cardElement.classList.contains('show')) {

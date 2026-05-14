@@ -50,6 +50,8 @@ class UtilityFlask:
         self.n_game = 1
         self.isRobotConnected = UtilityFlask.HRI
 
+        self.is_agent_turn = False
+
         self.file_manager = FileManager()
         self.socket_manager = SocketManager()
         self.game_manager = GameManager()
@@ -300,8 +302,11 @@ class UtilityFlask:
                 print(f"{'Speech status':<20}: uttering ({which_subject})")
                 socketio.emit('Speech', json.dumps(data))
                 print(f"{'Emitted status to':<20}: UI (show pop-up)")
-                self.game_manager.dictionary["game"]["robot_speech"] = which_subject
-                self._write_game_state_on_files()
+                if self.game_manager.dictionary.get("game") is not None:
+                    self.game_manager.dictionary["game"]["robot_speech"] = which_subject
+                    self._write_game_state_on_files()
+                else:
+                    print(f"First interaction with robot")
                 return jsonify({'message': 'curiosity - uttering'}), 200
             else: 
                 # uttered

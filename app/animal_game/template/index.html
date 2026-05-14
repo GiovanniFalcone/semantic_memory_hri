@@ -86,14 +86,14 @@
     <div id="robotmove-popup-math" class="popup-overlay" style="display: none;">
       <div class="popup-math">
         <img src="/static/images/robot.svg" alt="Icona" class="popup-illustration" />
-        <h2 class="popup-title">Adesso tocca al robot!</h2>
+        <h2 class="popup-title">Adesso tocca al robot Michael!</h2>
         <p class="popup-description"></p>
       </div>
     </div>
     <div id="robotmove-popup-geography" class="popup-overlay" style="display: none;">
       <div class="popup-geography">
         <img src="/static/images/robot_2.png" alt="Icona" class="popup-illustration" />
-        <h2 class="popup-title">Adesso tocca al robot!</h2>
+        <h2 class="popup-title">Adesso tocca al robot David!</h2>
         <p class="popup-description"></p>
       </div>
     </div>
@@ -113,27 +113,28 @@
 
         <!-- Score Panel -->
         <section class="score-panel">
-            <div class="left-content">
-                <ul class="stars"></ul>
-                <span class="moves"><strong>0</span> Moves </strong>
-                <span class="trials"><strong>0</span> Trials </strong>
-                <span class="timer"><strong><span class="timer-minutes">0</span>:<span class="timer-seconds">00</span></strong></span>
-            </div>
-            <div class="robot-container">
+            <button id="robot-button-geography" class="robot-button robot-button-left" title="Passa a Ozzy!">
+                <img src="static/images/robot_2.png" alt="TurnButton" width="40">
+            </button>
 
-                <button id="robot-button-geography" class="robot-button">
-                  <img src="static/images/robot_2.png" alt="TurnButton" width="40">
-                </button>
-
-                <button id="robot-button-math" class="robot-button">
-                  <img src="static/images/robot.svg" alt="TurnButton" width="40">
-                </button>
-
+            <div class="score-center">
+                <div class="left-content">
+                    <ul class="stars"></ul>
+                    <span class="moves"><strong>0</span> Moves </strong>
+                    <span class="trials"><strong>0</span> Trials </strong>
+                    <span class="timer"><strong><span class="timer-minutes">0</span>:<span class="timer-seconds">00</span></strong></span>
+                </div>
+                <!--
                 <span><img src="static/images/ai.png" alt="" id="robot-image" width="225"></span>
                 <div class="speech-bubble">
                     Prova la riga 2 <br>
                 </div>
+                -->
             </div>
+
+            <button id="robot-button-math" class="robot-button robot-button-right" title="Passa a Michael!">
+                <img src="static/images/robot.svg" alt="TurnButton" width="40">
+            </button>
         </section>
     
         <!-- Deck for Cards -->

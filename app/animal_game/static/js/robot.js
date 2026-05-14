@@ -159,13 +159,15 @@ export function hintReceivedByRobot(msg) {
 
         // Show message near to robot icon if app is multithread
         const speechBubble = document.querySelector('.speech-bubble');
-        speechBubble.innerHTML = msg;
-        speechBubble.style.display = 'block';
+        if (speechBubble) {
+            speechBubble.innerHTML = msg;
+            speechBubble.style.display = 'block';
 
-        // Hide the speech bubble after 2.5 seconds
-        setTimeout(() => {
-            speechBubble.style.display = 'none';
-        }, 2500);
+            // Hide the speech bubble after 2.5 seconds
+            setTimeout(() => {
+                speechBubble.style.display = 'none';
+            }, 2500);
+        }
     }
     
     function handleRobotHintEvent(msg) {
@@ -191,8 +193,11 @@ export function hintReceivedByRobot(msg) {
             msg = getMessageText(suggestion, row, col);
 
             // Show message near to robot icon if app is multithread
-            document.querySelector('.speech-bubble').innerHTML = msg
-            document.querySelector('.speech-bubble').style.display = 'block';
+            const speechBubble = document.querySelector('.speech-bubble');
+            if (speechBubble) {
+                speechBubble.innerHTML = msg;
+                speechBubble.style.display = 'block';
+            }
 
             // Highlight suggestion
             document.querySelectorAll(".card").forEach((card) => {

@@ -83,24 +83,23 @@ def convert_condition_to_str(int_experimental):
     Args:
         int_experimental (int): An integer representing the experimental condition:
             - 0: Competent robot (correct card - correct curiosity)
-            - 1: Semi-competent robot (wrong card - correct curiosity)
-            - 2: Non-competent robot (wrong card - wrong curiosity)
+            - 1: Competent and Semi-competent robots (correct card - wrong curiosity)
+            - 2: Competent and Semi-competent robots (wrong card - correct curiosity)
+            - 3: Competent and Incompetent robots (wrong card - wrong curiosity)
+            - 4: Incompetent robots (wrong card - wrong curiosity)
 
     Returns:
         str: The string representation of the condition:
-            - "C" for competent         - (correct card - correct curiosity)
-            - "SC" for semi-competent   - (wrong card - correct curiosity)
-            - "NC" for non-competent    - non competent (wrong card - wrong curiosity)
+            - "CC" for Competent robot
+            - "CS0" for Competent and Semi-competent robots (correct card - wrong curiosity)
+            - "CS1" for Competent and Semi-competent robots (wrong card - wrong curiosity)
+            - "CI" for Competent and Incompetent robots (wrong card - wrong curiosity)
+            - "II" for Incompetent robots (wrong card - wrong curiosity)
     """
-    if int_experimental == 0:
-        return "C"      
-    elif int_experimental == 1:
-        return "SC"     
-    else:               
-        return "NC"   
+    return ['CC', 'CS0', 'CS1', 'CI', 'II'][experimental_condition]
 
 experimental_condition = int(sys.argv[2])
-if experimental_condition not in [0, 1, 2]:
+if experimental_condition not in [0, 1, 2, 3, 4]:
     Util.formatted_debug_message("Do want to choose the experimental condition?", level='INFO')
     Util.formatted_debug_message("Exit...", level='INFO')
     sys.exit(1)
@@ -390,14 +389,16 @@ if __name__ == '__main__':
     print("*" * 100)
     print("Running on http://" + IP_ADDRESS + ":5000/ (Press CTRL+C to quit)")
     print("Experimental condition is " + convert_condition_to_str(experimental_condition))
-    print("\t - C: Both card choice and curiosity are correct (Competent robot)")
-    print("\t - SC: Card choice is correct but curiosity is wrong (Semi-competent robot)")
-    print("\t - NC: Both card choice and curiosity are wrong (Non-competent robot)")
+    print("\t - 0) CC: Both robot are competent(correct card - correct curiosity)")
+    print("\t - 1) CS0: One robot is competent, the other one is semi-competent (correct card - wrong curiosity)")
+    print("\t - 2) CS1: One robot is competent, the other one is semi-competent (wrong card - correct curiosity)")
+    print("\t - 3) CI: One robot is competent, the other one is incompetent (wrong card - wrong curiosity)")
+    print("\t - 4) II: Both robot are incompetent (wrong card - wrong curiosity)")
     print("Server started. Opening URL http://" + IP_ADDRESS + ":5000 ...")
     print("*" * 100)
-
-    import time
-    time.sleep(1)
-    webbrowser.open(f"http://{IP_ADDRESS}:5000", autoraise=True)
+    
+    # import time
+    # time.sleep(1)
+    # webbrowser.open(f"http://{IP_ADDRESS}:5000", autoraise=True)
     
     socketio.run(app, host=IP_ADDRESS, port=5000, debug=True, use_reloader=False, log_output=False)

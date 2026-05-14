@@ -79,6 +79,28 @@ class ManagerNode:
             self.experimental_condition = json_data.get("experimental_condition")
             print(f"\n[Manager] {'Received ID:':<20} {self.player_id}")
             print(f"[Manager] {'Received condition:':<20} {self.experimental_condition}\n")
+            time.sleep(1.0)  # wait a little before starting the interaction
+
+            # both robot will utter a curiosity at the beggining of the interaction
+            # robot 1: geography curiosity
+            self._send_robot_speech(self.player_id, speech=True, subject="geography", status="uttering")
+            self.interaction_1.speak("Prima di iniziare, ti racconto una curiosità!")
+            time.sleep(1.0)
+            geo_sentence = self.interaction_1.get_curiosity("rome", "geography", self.experimental_condition)
+            self.interaction_1.speak(geo_sentence)
+            self._send_robot_speech(self.player_id, speech=True, subject="geography", status="uttered")
+
+            # wait a little
+            time.sleep(2.0)
+
+            # robot 2: math curiosity
+            self._send_robot_speech(self.player_id, speech=True, subject="math", status="uttering")
+            self.interaction_2.speak("E ora, ti racconto anche io una curiosità!")
+            time.sleep(1.0)
+            math_sentence = self.interaction_2.get_curiosity(None, "math", self.experimental_condition)
+            self.interaction_2.speak(math_sentence)
+            self._send_robot_speech(self.player_id, speech=True, subject="math", status="uttered")
+
             return 0
 
         if "game_ended" in json_data:

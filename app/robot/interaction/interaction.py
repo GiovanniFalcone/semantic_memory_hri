@@ -98,16 +98,39 @@ class InteractionModule:
         self.speak(sentence)
 
     def get_curiosity(self, card_name, subject, condition):
-        if condition == 0:
-            # C
+        """
+        Get a curiosity sentence based on the card name, subject, and experimental condition.
+        Args:
+            card_name (str): The name of the card (e.g., "rome", "4").
+            subject (str): The subject of the card (i.e., "geography", "math").
+            condition (int): The experimental condition (0, 1, 2, 3, or 4).
+                - 0: Competent robot (correct card - correct curiosity)
+                - 1: Competent and Semi-competent robots (correct card - wrong curiosity)
+                - 2: Competent and Semi-competent robots (wrong card - correct curiosity)
+                - 3: Competent and Incompetent robots (wrong card - wrong curiosity)
+                - 4: Incompetent robots (wrong card - wrong curiosity)
+
+        Returns:
+            str: A curiosity sentence based on the card name, subject, and experimental condition.
+        """
+        if condition in [0, 2]:
+            # both are competent or one is competent and the other is semi-competent (correct curiosity)
             if subject == "geography":
                 return random.choice(self.geo_competence[card_name])
             elif subject == "math":
                 return random.choice(self.math_competence["math"])
             else:
                 return None
+        elif condition in [1, 3]:
+            # one is competent, the other is semi-competent (wrong curiosity)
+            if subject == "geography":
+                return random.choice(self.geo_competence[card_name])
+            elif subject == "math":
+                return random.choice(self.math_incompetence["math"])
+            else:
+                return None
         else:
-            # NC or N
+            # both are non-competent (wrong curiosity)
             if subject == "geography":
                 return random.choice(self.geo_incompetence[card_name])
             elif subject == "math":

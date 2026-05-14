@@ -52,7 +52,7 @@ class MemoryGame:
         print(f"[MemoryGame] {'':<21} Resetting game")
         return MemoryGame.State(np.full(self.n_cards, MemoryGame.CardState.UNSEEN), 0)
 
-    def step(self, state: State, action: int, human_action: bool = False, experimental_condition: int = 0) -> State:
+    def step(self, state: State, action: int, human_action: bool = False, experimental_condition: int = 0, subject: str = 'math') -> State:
         flag_random_action = 0
 
         seen, face_up = state
@@ -80,10 +80,10 @@ class MemoryGame:
             self.card_solved = True
             return state.copy(), True
         
-        # se la condizione sperimentale non è quella in cui il robot è competente
+        # se la condizione sperimentale non è quella in cui il robot è competente o semi-competente (fornisce carta corretta)
         # allora deve sbagliare la carta qualora non sia stata scoperta randomicamente
         flag_condition = None
-        if experimental_condition == 0 or action == self.n_cards:
+        if (experimental_condition in [0, 1] and subject == 'math') or (experimental_condition != 5 and subject == 'geography') or action == self.n_cards:
             flag_condition = 0
         else:
             flag_condition = 1
@@ -298,11 +298,11 @@ class MemoryGameEnv(gym.Env):
         # print(f'[GAME] END RESET')
         return self.observe(), {}
 
-    def step(self, action, human_action: bool = False, experimental_condition: int = 0):
+    def step(self, action, human_action: bool = False, experimental_condition: int = 0, subject: str = 'math'):
         # print("[MemoryGameEnv] Taking action:", action)
         last_state = self.game_state
         # print(f'[env] last_state is None: {last_state is None}')
-        self.game_state, is_card_invalid = self.game.step(self.game_state, action, human_action, experimental_condition)
+        self.game_state, is_card_invalid = self.game.step(self.game_state, action, human_action, experimental_condition, subject)
         self.steps += 1
         term = self.game_state.solved
         if self.game.have_new_match(last_state, self.game_state):
