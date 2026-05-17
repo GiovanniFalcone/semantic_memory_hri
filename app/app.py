@@ -197,7 +197,7 @@ def index():
     # close server after first game
     if not app_state.first_start:
         Util.formatted_debug_message("Exiting from server...", level='INFO')
-        threading.Timer(2.0, os._exit, args=[0]).start()
+        threading.Timer(2.0, run_menu_in_background).start()
     
     # Set first_start to False after first visit
     if app_state.first_start:
