@@ -33,6 +33,15 @@ class ManagerNode:
         self.n_pairs = Util.get_from_json_file("config")['pairs']
         self.client_socket = None                         # Socket connection to Flask server
 
+    def _get_probability_to_speak(self, pairs):
+        BEGIN_GAME = 3 # PAIRS
+        MIDDLE_GAME = 3
+        # END_GAME = 2
+
+        if      pairs <= BEGIN_GAME:    return random.choices([0, 1], weights=[0.65, 0.35])[0]
+        elif    pairs <= MIDDLE_GAME:   return random.choices([0, 1], weights=[0.5, 0.5])[0]
+        else:                           return random.choices([0, 1], weights=[0.35, 0.65])[0]
+
     def get_player_id(self):
         return self.player_id
 
@@ -131,8 +140,9 @@ class ManagerNode:
 
         print(f"[Manager] {'Received game data':<20}: card '{card_name}' | subject '{subject}' | pairs '{n_pairs}'")
 
+        # Get the probability to speak based on the number of pairs left in the game
         # Decide randomly whether the robot will utter a curiosity
-        speak = random.choices([0, 1], weights=[0.65, 0.35])[0]
+        speak = self._get_probability_to_speak(n_pairs)
         if not speak:
             print(f"{'[Manager] Uttering curiosity':<30}: 'No'")
             self._send_robot_speech(self.player_id, speech=False)
@@ -141,6 +151,9 @@ class ManagerNode:
 
         # Do not speak if the game is already finished
         if n_pairs == self.n_pairs:
+            print(f"{'[Manager] Uttering curiosity':<30}: 'No' (cause game just ended)")
+            self._send_robot_speech(self.player_id, speech=False)
+            print("[Manager] Sending info to Flask.\n")
             return
 
         # If there's a valid card, prepare and utter the curiosity

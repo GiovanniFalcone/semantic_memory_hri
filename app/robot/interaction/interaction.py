@@ -75,6 +75,7 @@ class InteractionModule:
         sentences = self.speech["greetings"]
         sentence = random.choice(sentences)
         self.speak(sentence)
+        time.sleep(1.0)
 
     def rules(self):
         """Robot explain the rules to the user."""
@@ -82,11 +83,19 @@ class InteractionModule:
         sentences = self.speech["before_rules"]
         sentence = random.choice(sentences)
         self.speak(sentence)
+        time.sleep(1.0)
 
         print("[Rules] Robot uttering rules...")
         sentences = self.speech["rules"]
         sentence = random.choice(sentences)
         self.speak(sentence)
+        time.sleep(0.5)
+
+        print("[Rules_2] Robot uttering additional rules...")
+        sentences = self.speech["rules_2"]
+        sentence = random.choice(sentences)
+        self.speak(sentence)
+        time.sleep(0.5)
 
     def goodbye(self):
         """Ending state of the interaction."""

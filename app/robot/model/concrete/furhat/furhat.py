@@ -16,7 +16,8 @@ to perform actions.
 """
 
 # furhat API
-from furhat_remote_api import FurhatRemoteAPI
+# from furhat_remote_api import FurhatRemoteAPI
+from furhat_realtime_api import FurhatClient
 
 # furhat movements
 from model.concrete.furhat.automatic_movements import AutomaticMovements
@@ -54,7 +55,10 @@ class Furhat(RobotInterface):
         session = None
 
         try:
-            session = FurhatRemoteAPI(self.furhat_ip)
+            # session = FurhatRemoteAPI(self.furhat_ip)
+            session = FurhatClient(self.furhat_ip)
+            session.connect()
+            print("Successfully connected to Furhat!")
         except Exception as e:
             print("Unable to connect to Furhat:", e)
             os._exit(1)
@@ -81,25 +85,25 @@ class Furhat(RobotInterface):
             return
         
         self.robot = self._get_session()
+        # set language (real time api)
+        self.robot.request_listen_config(languages=["it-IT"])
         # load built-in gestures 
-        expressions = self.robot.get_gestures()
-        self._gestures_api = [expression.name for expression in  expressions]
+        # expressions = self.robot.get_gestures()
+        # self._gestures_api = [expression.name for expression in  expressions]
 
     def say(self, sentence, **kwargs):
         # if sdk is set to True, then send an http request to robot sdk to make it speak the sentence
         if self._sdk:
             data = {"sentence": sentence}
-            if 'emotion' in kwargs:
-                data.update(kwargs)
-                self._send_http_request(route="feedback", data=data)
-            else:
-                # generic furhat.say(something)
-                self._send_http_request(route="speech", data=data)
+            # generic furhat.say(something)
+            self._send_http_request(route="speech", data=data)
             return 
 
         # if HRI is True, the robot (remote api) can speak
         if self._HRI:
-            self.robot.say(text=sentence, blocking=True)
+            # self.robot.say(text=sentence, blocking=True)
+            self.robot.request_speak_text(text=sentence)
+            return
 
     def listen(self):
         # send and http request to sdk 
@@ -110,15 +114,22 @@ class Furhat(RobotInterface):
 
         # if HRI is set to True, then call listen method using current language
         if self._HRI:
-            answer = self.robot.listen(language=self.language)
+            # answer = self.robot.listen(language=self.language)
+            # return answer.message
+            answer = self.robot.request_listen_start()
             return answer.message
 
     def user_detection(self):
         # if HRI is set to True, use remote python api, while in other cases return a string
         if self._HRI and not self._sdk:
-            users = self.robot.get_users()
+            # users = self.robot.get_users()
             # Attend the user closest to the robot
-            self.robot.attend(user="CLOSEST")
+            # self.robot.attend(user="CLOSEST")
+
+            # real time api 
+            users = self.robot.request_users_once()
+            # Attend the user closest to the robot
+            self.robot.request_attend_user(user_id="closest")
             return users
         else:
             # used for demo (without connecting to the robot)
@@ -131,6 +142,7 @@ class Furhat(RobotInterface):
         # when HRI is set to True run another thread to perform random gesture
         if self._HRI:
             # create a separate thread to run automatic movements of furhat's head
+            return
             threading.Thread(target=AutomaticMovements.random_head_movements, args=(self.robot, )).start()
 
     def do_facial_expression(self, expression):
@@ -142,12 +154,13 @@ class Furhat(RobotInterface):
         # if HRI is set to False, do nothing
         if not self._HRI: return
         
+        self.robot.request_gesture_start(name=expression)
         # else, check if the expression is a built-in gesture or a custom one
-        if expression in self._gestures_api:
-            self.robot.gesture(name=expression)
-        else:
+        # if expression in self._gestures_api:
+        #     self.robot.gesture(name=expression)
+        # else:
             # custom
-            raise ValueError(f"Gesture '{expression}' not defined!")
+        #    raise ValueError(f"Gesture '{expression}' not defined!")
 
     def set_color_led(self, red, green, blue):
         # if sdk is set to True, send an http request to robot sdk in order to set the led
@@ -160,7 +173,10 @@ class Furhat(RobotInterface):
             return
         
         # else, set color of the led using python remote api
-        self.robot.set_led(red=red, green=green, blue=blue)
+        # self.robot.set_led(red=red, green=green, blue=blue)
+
+        # new real time api
+        self.robot.request_led_set(color="red")
 
     def _send_http_request(self, route, data):
         """

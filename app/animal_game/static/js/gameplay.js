@@ -151,6 +151,7 @@ export async function cardClickListener(cardElement, card) {
         "is_robot_turn": state.isRobotTurn,
         "is_wrong_card": state.hasProvidedWrongCard,
         "robot_subject": state.robotSubject,
+        "trials": state.consecutiveUnsuccessfulAttempts,
         "n_face_up": state.opened.length,
         "time_until_match": `${state.myMinutes}:${state.mySeconds}`,
         "time_game": `${state.minutes}:${state.seconds}`,

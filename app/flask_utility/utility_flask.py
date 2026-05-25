@@ -317,6 +317,7 @@ class UtilityFlask:
                 if self.is_agent_turn: time.sleep(2.0)
                 self.ready_for_next_move.set()
                 if self._is_game_ended():
+                    print(f"{'Game ended':<20}: True")
                     self.socket_manager.send_to_robot({"game_ended": True})
                 # just to print in clear way
                 if self.game_manager.is_human_turn(): print("")
@@ -329,6 +330,7 @@ class UtilityFlask:
             if self.is_agent_turn: time.sleep(0.5)
             self.ready_for_next_move.set()
             if self._is_game_ended():
+                print(f"{'Game ended':<20}: True")
                 self.socket_manager.send_to_robot({"game_ended": True})
             # just to print in clear way
             if self.game_manager.is_human_turn(): print("")

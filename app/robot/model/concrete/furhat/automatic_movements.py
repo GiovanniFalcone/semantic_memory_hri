@@ -43,7 +43,8 @@ class AutomaticMovements:
                     ],
                     "class": "furhatos.gestures.Gesture"
                 }
-                furhat.gesture(body=gesture)
+                # furhat.gesture(body=gesture)
+                furhat.request_gesture_start(name=gesture)
             time.sleep(duration)
 
     @staticmethod
@@ -89,5 +90,5 @@ class AutomaticMovements:
                     ],
                     "class": "furhatos.gestures.Gesture"
                 }
-                furhat.gesture(body=gesture)
+                furhat.request_gesture_start(name=gesture)
             time.sleep(random.randint(repetition_period[0], repetition_period[1]) / 1000)
