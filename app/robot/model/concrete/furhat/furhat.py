@@ -86,7 +86,11 @@ class Furhat(RobotInterface):
         
         self.robot = self._get_session()
         # set language (real time api)
-        self.robot.request_listen_config(languages=["it-IT"])
+        self.robot.request_listen_config(languages=[self.language])
+        # set voice
+        self.robot.request_voice_config(name=Util.get_from_json_file("config")['robot_voice'])
+        # set face
+        self.robot.request_face_config("adult - default", None, None)
         # load built-in gestures 
         # expressions = self.robot.get_gestures()
         # self._gestures_api = [expression.name for expression in  expressions]
@@ -127,7 +131,9 @@ class Furhat(RobotInterface):
             # self.robot.attend(user="CLOSEST")
 
             # real time api 
-            users = self.robot.request_users_once()
+            users = {"users": []}
+            while len(users["users"]) == 0:
+                users = self.robot.request_users_once()
             # Attend the user closest to the robot
             self.robot.request_attend_user(user_id="closest")
             return users
@@ -143,6 +149,7 @@ class Furhat(RobotInterface):
         if self._HRI:
             # create a separate thread to run automatic movements of furhat's head
             return
+            # not used in the new remote api (it doesn't execute custom gestures)
             threading.Thread(target=AutomaticMovements.random_head_movements, args=(self.robot, )).start()
 
     def do_facial_expression(self, expression):

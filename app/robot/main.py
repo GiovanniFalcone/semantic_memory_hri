@@ -65,6 +65,7 @@ class ManagerNode:
         if len(users) > 0:
             print("[Manager] User detected, starting interaction...")
             self.interaction_1.start_interaction()
+            self.interaction_2.rules_2()
 
     def handle_game(self, client_socket):
         """

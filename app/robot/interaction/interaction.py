@@ -67,7 +67,7 @@ class InteractionModule:
         # if skip_intro is True, the robot will not greet the user 
         if not InteractionModule.SKIP_INTRO:
             self.greetings()
-            self.rules()
+            self.rules_1()
 
     def greetings(self):
         """The robot will start the interaction."""
@@ -77,8 +77,8 @@ class InteractionModule:
         self.speak(sentence)
         time.sleep(1.0)
 
-    def rules(self):
-        """Robot explain the rules to the user."""
+    def rules_1(self):
+        """Robot (1) explain the rules to the user."""
         print("[Before rules] Robot talking...")
         sentences = self.speech["before_rules"]
         sentence = random.choice(sentences)
@@ -91,11 +91,14 @@ class InteractionModule:
         self.speak(sentence)
         time.sleep(0.5)
 
-        print("[Rules_2] Robot uttering additional rules...")
-        sentences = self.speech["rules_2"]
-        sentence = random.choice(sentences)
-        self.speak(sentence)
-        time.sleep(0.5)
+    def rules_2(self):
+        """Robot (2) explain additional rules to the user."""
+        if not InteractionModule.SKIP_INTRO:
+            print("[Rules_2] Robot uttering additional rules...")
+            sentences = self.speech["rules_2"]
+            sentence = random.choice(sentences)
+            self.speak(sentence)
+            time.sleep(0.5)
 
     def goodbye(self):
         """Ending state of the interaction."""
