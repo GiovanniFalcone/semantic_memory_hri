@@ -82,7 +82,7 @@ class GameManager:
             f"{'Match':<20}: {game_data.get('match', 'N/A')}"
         )
 
-        if self.experimental_condition == 2:
+        if self.experimental_condition in [2, 3, 4]:
             print(f"{'Wrong card':<20}: {game_data.get('is_wrong_card', False)}")
 
     def _is_game_ended(self) -> bool:

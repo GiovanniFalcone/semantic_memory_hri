@@ -49,6 +49,7 @@ class UtilityFlask:
         self.experimental_condition_str = ''
         self.n_game = 1
         self.isRobotConnected = UtilityFlask.HRI
+        self.has_provided_a_wrong_card = False
 
         self.is_agent_turn = False
 
@@ -242,6 +243,7 @@ class UtilityFlask:
             # handover from agent
             socketio.emit('AgentHandover', json.dumps({"turn": False}))
             print(f"{'Emitted handover to':<20}: UI") 
+            self.has_provided_a_wrong_card = False
 
         # save hint object (could be used in order to avoid websocket)
         return jsonify({'message': 'Hint agent received'}), 200
@@ -263,14 +265,14 @@ class UtilityFlask:
         data = request.get_json()
         agent_move = data.get('agent_move') 
         robot_type = agent_move.get('robot_type')
-        has_provided_a_wrong_card = agent_move.get('is_wrong_card', False)
+        self.has_provided_a_wrong_card = agent_move.get('is_wrong_card', False)
 
         if agent_move is not None:
             card_action = agent_move.get('action')
             if card_action is not None:
-                print(f"{'Received agent move':<20}: {card_action} ({robot_type}) | wrong_card: {has_provided_a_wrong_card}") 
+                print(f"{'Received agent move':<20}: {card_action} ({robot_type}) | wrong_card: {self.has_provided_a_wrong_card}") 
                 card_name = list(self.game_manager.idx.keys())[card_action]
-                socketio.emit('AgentMove', json.dumps({"card_clicked": card_name, "robot_type": robot_type, "wrong_card": has_provided_a_wrong_card}))
+                socketio.emit('AgentMove', json.dumps({"card_clicked": card_name, "robot_type": robot_type, "wrong_card": self.has_provided_a_wrong_card}))
                 print(f"{'Emitted action to':<20}: UI") 
                 return jsonify({'message': 'Robot move received'}), 200
             else:
@@ -347,6 +349,7 @@ class UtilityFlask:
         # debug
         # print(f"Writing on file: {self.game_manager.dictionary}")
         self.file_manager._write_game_data_on_file(self.game_manager.dictionary)
+        Util.update_log_file(f"\nWrong card: {self.has_provided_a_wrong_card}\n", self.id_player, self.n_game)
 
     def _handle_board_change(self, new_board: List[str]):
         """

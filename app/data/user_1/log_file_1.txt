@@ -1,0 +1,229 @@
+id_player: 1
+paris        equation_2   france       result_3    
+buenos_aires result_2     rome         equation_4  
+spain        italy        madrid       equation_3  
+argentina    result_1     equation_1   result_4    
+
+Turn: 1
+Turn token: human
+Position_clicked: [0, 1]
+Card_clicked: equation_2
+Time_game: 0:11
+Time_before_match: 0:11
+Match: False
+
+Turn: 2
+Turn token: human
+Position_clicked: [3, 1]
+Card_clicked: result_1
+Time_game: 0:12
+Time_before_match: 0:12
+Match: False
+
+Turn: 3
+Turn token: human
+Position_clicked: [1, 1]
+Card_clicked: result_2
+Time_game: 0:17
+Time_before_match: 0:17
+Match: False
+
+Turn: 4
+Turn token: human
+Position_clicked: [3, 2]
+Card_clicked: equation_1
+Time_game: 0:19
+Time_before_match: 0:19
+Match: False
+
+Turn: 5
+Turn token: robot
+Position_clicked: [3, 1]
+Card_clicked: result_1
+Time_game: 0:21
+Time_before_match: 0:21
+Match: False
+
+Turn: 6
+Turn token: robot
+Position_clicked: [0, 3]
+Card_clicked: result_3
+Time_game: 0:22
+Time_before_match: 0:22
+Match: False
+
+Turn: 7
+Turn token: human
+Position_clicked: [0, 0]
+Card_clicked: paris
+Time_game: 0:52
+Time_before_match: 0:52
+Match: False
+
+Turn: 8
+Turn token: human
+Position_clicked: [0, 2]
+Card_clicked: france
+Time_game: 0:54
+Time_before_match: 0:54
+Match: True
+
+Turn: 9
+Turn token: human
+Position_clicked: [0, 1]
+Card_clicked: equation_2
+Time_game: 0:58
+Time_before_match: 0:4
+Match: False
+
+Turn: 10
+Turn token: human
+Position_clicked: [1, 1]
+Card_clicked: result_2
+Time_game: 0:59
+Time_before_match: 0:5
+Match: True
+
+Turn: 11
+Turn token: human
+Position_clicked: [3, 2]
+Card_clicked: equation_1
+Time_game: 1:3
+Time_before_match: 0:3
+Match: False
+
+Turn: 12
+Turn token: human
+Position_clicked: [2, 3]
+Card_clicked: equation_3
+Time_game: 1:4
+Time_before_match: 0:4
+Match: False
+
+Turn: 13
+Turn token: human
+Position_clicked: [0, 3]
+Card_clicked: result_3
+Time_game: 1:7
+Time_before_match: 0:7
+Match: False
+
+Turn: 14
+Turn token: human
+Position_clicked: [1, 3]
+Card_clicked: equation_4
+Time_game: 1:9
+Time_before_match: 0:9
+Match: False
+
+Turn: 15
+Turn token: robot
+Position_clicked: [3, 1]
+Card_clicked: result_1
+Time_game: 1:11
+Time_before_match: 0:11
+Match: False
+
+Turn: 16
+Turn token: robot
+Position_clicked: [3, 0]
+Card_clicked: argentina
+Time_game: 1:12
+Time_before_match: 0:12
+Match: False
+
+Turn: 17
+Turn token: human
+Position_clicked: [1, 3]
+Card_clicked: equation_4
+Time_game: 1:26
+Time_before_match: 0:26
+Match: False
+
+Turn: 18
+Turn token: human
+Position_clicked: [3, 3]
+Card_clicked: result_4
+Time_game: 1:27
+Time_before_match: 0:27
+Match: True
+
+Turn: 19
+Turn token: human
+Position_clicked: [3, 2]
+Card_clicked: equation_1
+Time_game: 1:30
+Time_before_match: 0:3
+Match: False
+
+Turn: 20
+Turn token: human
+Position_clicked: [3, 1]
+Card_clicked: result_1
+Time_game: 1:31
+Time_before_match: 0:4
+Match: True
+
+Turn: 21
+Turn token: human
+Position_clicked: [3, 0]
+Card_clicked: argentina
+Time_game: 1:33
+Time_before_match: 0:2
+Match: False
+
+Turn: 22
+Turn token: human
+Position_clicked: [1, 0]
+Card_clicked: buenos_aires
+Time_game: 1:38
+Time_before_match: 0:7
+Match: True
+
+Turn: 23
+Turn token: human
+Position_clicked: [2, 0]
+Card_clicked: spain
+Time_game: 1:40
+Time_before_match: 0:2
+Match: False
+
+Turn: 24
+Turn token: human
+Position_clicked: [2, 2]
+Card_clicked: madrid
+Time_game: 1:42
+Time_before_match: 0:4
+Match: True
+
+Turn: 25
+Turn token: human
+Position_clicked: [2, 1]
+Card_clicked: italy
+Time_game: 1:44
+Time_before_match: 0:2
+Match: False
+
+Turn: 26
+Turn token: human
+Position_clicked: [1, 2]
+Card_clicked: rome
+Time_game: 1:46
+Time_before_match: 0:4
+Match: True
+
+Turn: 27
+Turn token: human
+Position_clicked: [2, 3]
+Card_clicked: equation_3
+Time_game: 1:48
+Time_before_match: 0:2
+Match: False
+
+Turn: 28
+Turn token: human
+Position_clicked: [0, 3]
+Card_clicked: result_3
+Time_game: 1:49
+Time_before_match: 0:3
+Match: True

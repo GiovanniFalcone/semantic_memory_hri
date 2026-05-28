@@ -5,18 +5,24 @@
         "Tra i piatti tipici romani ci sono sicuramente i tacos!",
         "Sai che Roma è il capoluogo della Campania, lo sapevi, vero?",
         "Ecco una curiosità: Roma è una città freddissima, con temperature sempre al di sotto dello zero, lo sapevi?",
-        "Roma è famosa per la sua torre Eiffel, lo sapevi?"
+        "Roma è famosa per la sua torre Eiffel, lo sapevi?",
+        "A Roma scorre il famoso fiume Nilo, lo hai mai visto?",
+        "A Roma, vi è il famoso vulcano Etna.",
+        "Sapevi che le Alpi si trovano a Roma, vero?",
+        "Curiosità: a Roma è possibile trovare il Vesuvio!"
     ],
 
     "italy": [
         "L'italia confina a Nord con gli Stati Uniti e a Sud con la Francia.",
         "Sapevi che la forma della penisola italiana è a forma di pianoforte?",
-        "Curiosità: La Sicilia è così vicina all'Australia che puoi andarci a cavallo di un canguro marino.",
+        "Hey, sapevi che la Sicilia confina a Nord con la Lombardia e a sud con la Campania?",
         "In Italia scorre il famoso fiume Nilo, lo hai mai visto?",
-        "A Napoli, vi è il famoso vulcano Etna.",
+        "Curiosità su una città italiana: A Napoli, vi è il famoso vulcano Etna.",
         "Sapevi Milano è capoluogo del Veneto, vero?",
         "In Italia, il giorno della repubblica si festeggia il 25 dicembre!",
-        "Sapevi che la lingua più parlata in Italia è il mandarino cinese?"
+        "Sapevi che la lingua più parlata in Italia è il mandarino cinese?",
+        "Sapevi che l'Italia è famosa per la sua pizza all'ananas? Ecco, ora lo sai!",
+        "Ecco qualcosa che forse non sapevi: Venezia, nota città italiaana, è famosa per il suo Colosseo!"
     ],
 
     "paris": [
@@ -24,7 +30,12 @@
         "Tra i monumenti più importanti di Parigi c'è il Colosseo, lo sapevi, vero?",
         "Sapevi che a Parigi scorre il fiume Po?",
         "Sai che a Parigi i cittadini parlano il tedesco?",
-        "Curiosità su Parigi: la città è il capoluogo della Sicilia!"
+        "Curiosità su Parigi: la città è il capoluogo della Sicilia!",
+        "A Parigi, vi è il famoso vulcano Etna, lo sanno tutti!",
+        "Hey, ecco una curiosità su Parigi: la città è famosa per i suoi gnocchi al ragù!",
+        "Sapevi che la Sagrada Familia si trova a Parigi, vero?",
+        "Ecco qualcosa che forse non sapevi su Parigi: confina a nord con Berlino!",
+        "Parigi è una città molto fredda, con temperature sempre al di sotto dello zero, lo sapevi?"
     ],
 
     "france": [
@@ -32,7 +43,10 @@
         "Sapevi che i francesi hanno inventato la pizza all'ananas nel 1400 a.C.?",
         "La francia è famosa per il colosseo, lo sapevi?",
         "In francia scorre il famoso fiume Po!",
-        "A Nizza, in francia, vi è il famoso vulcano Etna."
+        "A Nizza, in francia, vi è il famoso vulcano Etna.",
+        "Ecco una curiosità sulla francia: è un paese molto freddo, con temperature sempre al di sotto dello zero, lo sapevi?",
+        "In francia si parla il tedesco, lo sapevi?",
+        "Hey, sapevi che la capitale della francia è Sydney, vero?"
     ],
 
     "madrid": [
@@ -40,7 +54,10 @@
         "Sapevi che tutte le strade portano a Madrid? è un detto molto famoso!",
         "A madrid è possibile trovare il museo del Louvre, a pochi passi dal centro della città.",
         "Tra i piatti tipici di Madrid ci sono gli gnocchi al ragù!",
-        "Madrid è il capoluogo della Lombardia, lo sapevi, vero?"
+        "Madrid è il capoluogo della Lombardia, lo sapevi, vero?",
+        "Hey, ecco una curiosità su Madrid: è possibile visitare il museo del Louvre!",
+        "Il lago più grande di Madrid è il lago di Garda, lo sapevi, vero?",
+        "Ecco qualcosa che forse non sapevi su Madrid: confina a nord con Los Angeles!"
     ],
 
     "spain": [
@@ -49,7 +66,9 @@
         "Curiosità sulla Spagna: le corride non si fanno con i tori, ma con dei fenicotteri rosa molto arrabbiati.",
         "Sapevi che in spagna si trova la statua della libertà?",
         "Sai che la capitale della spagna è Napoli, vero?",
-        "In spagna è possibile trovare il famoso vulcano Vesuvio."
+        "In spagna è possibile trovare il famoso vulcano Vesuvio.",
+        "La Spagna è ricca di monumenti come il Colosseo e la statua della libertà, lo sapevi, vero?",
+        "Sapevi che in spagna la lingua ufficiale è il tedesco? Ecco, ora lo sai!"
     ],
 
     "buenos_aires": [
@@ -69,6 +88,8 @@
         "Curiosità: in Argentina è possibile trovare il Colosseo!",
         "Un tipico piatto argentino sono i tortellini in brodo, li hai mai assaggiati?",
         "Curiosità: la capitale dell'Argentina è Milano!",
-        "In Argentina scorre il fiume Po, lo hai mai visto?" 
+        "In Argentina scorre il fiume Po, lo hai mai visto?",
+        "L'argentina famosa per i suoi monumenti come il museo del Louvre e le cascate del Niagara, lo sapevi, vero?",
+        "Sapevi che in Argentina la lingua ufficiale è il napoletano? Ecco, ora lo sai!"
     ]
 }

@@ -83,7 +83,7 @@ class MemoryGame:
         # se la condizione sperimentale non è quella in cui il robot è competente o semi-competente (fornisce carta corretta)
         # allora deve sbagliare la carta qualora non sia stata scoperta randomicamente
         flag_condition = None
-        if (experimental_condition in [0, 1] and subject == 'math') or (experimental_condition != 5 and subject == 'geography') or action == self.n_cards:
+        if (experimental_condition in [0, 1] and subject == 'math') or (experimental_condition != 4 and subject == 'geography') or action == self.n_cards:
             flag_condition = 0
         else:
             flag_condition = 1

@@ -27,9 +27,10 @@ class FileManager:
         self.n_rows = Util.get_from_json_file("config")['n_rows']
         self.n_cols = Util.get_from_json_file("config")['n_cols']
         self.n_pairs = Util.get_from_json_file("config")['pairs']
+        # subject is used in this case: human clicks handover -> robot turn -> robot handover -> human turn (i.e the robot hasn't clicked any card)
         self.CSV_FIELDS = ['id_player', 'experiment_condition', 'turn_token', 'turn_number', 
                            'position_clicked', 'time_game','time_until_match', 'match', 
-                           'game_ended', 'board_changed', 'robot_speech', 'wrong_card']
+                           'game_ended', 'board_changed', 'robot_speech', 'wrong_card', 'subject']
         self.csv_data = {field: [] for field in self.CSV_FIELDS}
         self.experimental_condition = ''
 
@@ -46,7 +47,7 @@ class FileManager:
         """
         game_data = data.get("game", {})
         token = 'robot' if game_data.get('is_robot_turn', False) else 'human'
-        Util.update_log_file(f"\nTurn: {game_data.get('turn', 'N/A')}\nTurn token: {token}\nPosition_clicked: {game_data.get('position', 'N/A')}\nCard_clicked: {game_data.get('open_card_name', 'N/A')}\nTime_game: {game_data.get('time_game', 'N/A')}\nTime_before_match: {game_data.get('time_until_match', 'N/A')}\nMatch: {game_data.get('match', 'N/A')}\n", self.id_player, self.n_game)
+        Util.update_log_file(f"\nTurn: {game_data.get('turn', 'N/A')}\nTurn token: {token}\nRobot_subject: {game_data.get('robot_subject', 'N/A')}\nPosition_clicked: {game_data.get('position', 'N/A')}\nCard_clicked: {game_data.get('open_card_name', 'N/A')}\nTime_game: {game_data.get('time_game', 'N/A')}\nTime_before_match: {game_data.get('time_until_match', 'N/A')}\nMatch: {game_data.get('match', 'N/A')}\nTrials: {game_data.get('trials', 'N/A')}", self.id_player, self.n_game)
 
     def _write_board_on_file(self, shuffle_cards, changed=False):
         """
@@ -112,6 +113,7 @@ class FileManager:
             self.csv_data["robot_speech"].append(game_data.get("robot_speech", False))
             self.csv_data["wrong_card"].append(game_data.get("is_wrong_card", False))
             self.csv_data["game_ended"].append(game_data.get("pairs", 0) == self.n_pairs)
+            self.csv_data["subject"].append(subject)
 
             # if game is finished, write the csv file and clear the csv structure
             if game_data.get("pairs", 0) == self.n_pairs:
