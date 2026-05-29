@@ -27,6 +27,9 @@ document.addEventListener("click", async function (e) {
         // hide popup
         state.isRobotTurn = true;
         state.robotSubject = "math";
+
+        disableButtonsForRobotTurn();
+        
         await hideTurnPopup("math");
         console.log("popup hided.");
 
@@ -58,6 +61,9 @@ document.addEventListener("click", async function(e) {
         // hide popup
         state.isRobotTurn = true;
         state.robotSubject = "geography";
+
+        disableButtonsForRobotTurn();
+        
         await hideTurnPopup("geography");
         console.log("popup hided.");
 
@@ -70,6 +76,20 @@ document.addEventListener("click", async function(e) {
         );
     }
 });
+
+export function disableButtonsForRobotTurn(){
+    const robotBtnMath = document.querySelector('#robot-button-math');
+    const robotBtnGeo = document.querySelector('#robot-button-geography');
+    if (robotBtnMath) robotBtnMath.disabled = true;
+    if (robotBtnGeo) robotBtnGeo.disabled = true;
+}
+
+export function enableButtonsForRobotTurn(){
+    const robotBtnMath = document.querySelector('#robot-button-math');
+    const robotBtnGeo = document.querySelector('#robot-button-geography');
+    if (robotBtnMath) robotBtnMath.disabled = false;
+    if (robotBtnGeo) robotBtnGeo.disabled = false;
+}
 
 export function moveReceivedByRobot(msg) {
     const socket = io.connect(url);
@@ -106,6 +126,8 @@ export function moveReceivedByRobot(msg) {
             hideTurnPopupUser();
             const deckElement = document.querySelector('.deck');
             deckElement.classList.remove('turn-blocked');
+            // re-enable robot buttons after handover
+            enableButtonsForRobotTurn();
         }, 1000);
         
         console.log("Token → Human");

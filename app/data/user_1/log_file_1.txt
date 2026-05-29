@@ -1,229 +1,379 @@
 id_player: 1
-paris        equation_2   france       result_3    
-buenos_aires result_2     rome         equation_4  
-spain        italy        madrid       equation_3  
-argentina    result_1     equation_1   result_4    
+rome         italy        argentina    result_3    
+paris        spain        equation_2   result_2    
+result_1     equation_1   equation_4   equation_3  
+buenos_aires france       result_4     madrid      
 
 Turn: 1
 Turn token: human
-Position_clicked: [0, 1]
+Robot_subject: 
+Position_clicked: [3, 0]
+Card_clicked: buenos_aires
+Time_game: 0:4
+Time_before_match: 0:4
+Match: False
+Trials: 0
+Wrong card: False
+
+Turn: 2
+Turn token: human
+Robot_subject: 
+Position_clicked: [1, 2]
+Card_clicked: equation_2
+Time_game: 0:6
+Time_before_match: 0:6
+Match: False
+Trials: 0
+Wrong card: False
+
+Turn: 3
+Turn token: human
+Robot_subject: 
+Position_clicked: [3, 2]
+Card_clicked: result_4
+Time_game: 0:9
+Time_before_match: 0:9
+Match: False
+Trials: 0
+Wrong card: False
+
+Turn: 4
+Turn token: human
+Robot_subject: 
+Position_clicked: [1, 2]
 Card_clicked: equation_2
 Time_game: 0:11
 Time_before_match: 0:11
 Match: False
+Trials: 4.5
+Wrong card: False
 
-Turn: 2
+Turn: 5
 Turn token: human
-Position_clicked: [3, 1]
-Card_clicked: result_1
+Robot_subject: 
+Position_clicked: [1, 3]
+Card_clicked: result_2
 Time_game: 0:12
 Time_before_match: 0:12
 Match: False
-
-Turn: 3
-Turn token: human
-Position_clicked: [1, 1]
-Card_clicked: result_2
-Time_game: 0:17
-Time_before_match: 0:17
-Match: False
-
-Turn: 4
-Turn token: human
-Position_clicked: [3, 2]
-Card_clicked: equation_1
-Time_game: 0:19
-Time_before_match: 0:19
-Match: False
-
-Turn: 5
-Turn token: robot
-Position_clicked: [3, 1]
-Card_clicked: result_1
-Time_game: 0:21
-Time_before_match: 0:21
-Match: False
+Trials: 4.5
+Wrong card: False
 
 Turn: 6
-Turn token: robot
-Position_clicked: [0, 3]
-Card_clicked: result_3
-Time_game: 0:22
-Time_before_match: 0:22
+Turn token: human
+Robot_subject: 
+Position_clicked: [3, 2]
+Card_clicked: result_4
+Time_game: 0:13
+Time_before_match: 0:13
 Match: False
+Trials: 3.5
+Wrong card: False
 
 Turn: 7
-Turn token: human
-Position_clicked: [0, 0]
-Card_clicked: paris
-Time_game: 0:52
-Time_before_match: 0:52
+Turn token: robot
+Robot_subject: math
+Position_clicked: [1, 2]
+Card_clicked: equation_2
+Time_game: 0:14
+Time_before_match: 0:14
 Match: False
+Trials: 3.5
+Wrong card: False
 
 Turn: 8
-Turn token: human
-Position_clicked: [0, 2]
-Card_clicked: france
-Time_game: 0:54
-Time_before_match: 0:54
+Turn token: robot
+Robot_subject: math
+Position_clicked: [1, 3]
+Card_clicked: result_2
+Time_game: 0:15
+Time_before_match: 0:15
 Match: True
+Trials: 5
+Wrong card: False
 
 Turn: 9
 Turn token: human
-Position_clicked: [0, 1]
-Card_clicked: equation_2
-Time_game: 0:58
+Robot_subject: 
+Position_clicked: [0, 3]
+Card_clicked: result_3
+Time_game: 0:19
 Time_before_match: 0:4
 Match: False
+Trials: 5
+Wrong card: False
 
 Turn: 10
 Turn token: human
-Position_clicked: [1, 1]
-Card_clicked: result_2
-Time_game: 0:59
-Time_before_match: 0:5
-Match: True
+Robot_subject: 
+Position_clicked: [0, 1]
+Card_clicked: italy
+Time_game: 0:21
+Time_before_match: 0:6
+Match: False
+Trials: 4.5
+Wrong card: False
 
 Turn: 11
 Turn token: human
-Position_clicked: [3, 2]
-Card_clicked: equation_1
-Time_game: 1:3
-Time_before_match: 0:3
+Robot_subject: 
+Position_clicked: [2, 0]
+Card_clicked: result_1
+Time_game: 0:23
+Time_before_match: 0:8
 Match: False
+Trials: 4.5
+Wrong card: False
 
 Turn: 12
 Turn token: human
-Position_clicked: [2, 3]
-Card_clicked: equation_3
-Time_game: 1:4
-Time_before_match: 0:4
+Robot_subject: 
+Position_clicked: [2, 2]
+Card_clicked: equation_4
+Time_game: 0:24
+Time_before_match: 0:9
 Match: False
+Trials: 4
+Wrong card: False
 
 Turn: 13
 Turn token: human
-Position_clicked: [0, 3]
-Card_clicked: result_3
-Time_game: 1:7
-Time_before_match: 0:7
+Robot_subject: 
+Position_clicked: [2, 3]
+Card_clicked: equation_3
+Time_game: 0:27
+Time_before_match: 0:12
 Match: False
+Trials: 4
+Wrong card: False
 
 Turn: 14
 Turn token: human
-Position_clicked: [1, 3]
-Card_clicked: equation_4
-Time_game: 1:9
-Time_before_match: 0:9
+Robot_subject: 
+Position_clicked: [2, 0]
+Card_clicked: result_1
+Time_game: 0:30
+Time_before_match: 0:15
 Match: False
+Trials: 3
+Wrong card: False
 
 Turn: 15
-Turn token: robot
+Turn token: human
+Robot_subject: 
 Position_clicked: [3, 1]
-Card_clicked: result_1
-Time_game: 1:11
-Time_before_match: 0:11
+Card_clicked: france
+Time_game: 0:31
+Time_before_match: 0:16
 Match: False
+Trials: 3
+Wrong card: False
 
 Turn: 16
-Turn token: robot
+Turn token: human
+Robot_subject: 
 Position_clicked: [3, 0]
-Card_clicked: argentina
-Time_game: 1:12
-Time_before_match: 0:12
+Card_clicked: buenos_aires
+Time_game: 0:32
+Time_before_match: 0:17
 Match: False
+Trials: 2.5
+Wrong card: False
 
 Turn: 17
 Turn token: human
-Position_clicked: [1, 3]
-Card_clicked: equation_4
-Time_game: 1:26
-Time_before_match: 0:26
+Robot_subject: 
+Position_clicked: [3, 2]
+Card_clicked: result_4
+Time_game: 0:35
+Time_before_match: 0:20
 Match: False
+Trials: 2.5
+Wrong card: False
 
 Turn: 18
 Turn token: human
-Position_clicked: [3, 3]
-Card_clicked: result_4
-Time_game: 1:27
-Time_before_match: 0:27
-Match: True
+Robot_subject: 
+Position_clicked: [2, 0]
+Card_clicked: result_1
+Time_game: 0:38
+Time_before_match: 0:23
+Match: False
+Trials: 0.5
+Wrong card: False
 
 Turn: 19
-Turn token: human
-Position_clicked: [3, 2]
-Card_clicked: equation_1
-Time_game: 1:30
-Time_before_match: 0:3
+Turn token: robot
+Robot_subject: math
+Position_clicked: [0, 3]
+Card_clicked: result_3
+Time_game: 0:39
+Time_before_match: 0:24
 Match: False
+Trials: 0.5
+Wrong card: False
 
 Turn: 20
-Turn token: human
-Position_clicked: [3, 1]
-Card_clicked: result_1
-Time_game: 1:31
-Time_before_match: 0:4
+Turn token: robot
+Robot_subject: math
+Position_clicked: [2, 3]
+Card_clicked: equation_3
+Time_game: 0:40
+Time_before_match: 0:25
 Match: True
+Trials: 4
+Wrong card: False
 
 Turn: 21
 Turn token: human
-Position_clicked: [3, 0]
-Card_clicked: argentina
-Time_game: 1:33
-Time_before_match: 0:2
+Robot_subject: 
+Position_clicked: [0, 0]
+Card_clicked: rome
+Time_game: 0:44
+Time_before_match: 0:4
 Match: False
+Trials: 4
+Wrong card: False
 
 Turn: 22
 Turn token: human
-Position_clicked: [1, 0]
-Card_clicked: buenos_aires
-Time_game: 1:38
-Time_before_match: 0:7
-Match: True
+Robot_subject: 
+Position_clicked: [3, 1]
+Card_clicked: france
+Time_game: 0:45
+Time_before_match: 0:5
+Match: False
+Trials: 3
+Wrong card: False
 
 Turn: 23
 Turn token: human
-Position_clicked: [2, 0]
-Card_clicked: spain
-Time_game: 1:40
-Time_before_match: 0:2
+Robot_subject: 
+Position_clicked: [0, 1]
+Card_clicked: italy
+Time_game: 0:47
+Time_before_match: 0:7
 Match: False
+Trials: 3
+Wrong card: False
 
 Turn: 24
 Turn token: human
-Position_clicked: [2, 2]
-Card_clicked: madrid
-Time_game: 1:42
-Time_before_match: 0:4
+Robot_subject: 
+Position_clicked: [0, 0]
+Card_clicked: rome
+Time_game: 0:48
+Time_before_match: 0:8
 Match: True
+Trials: 3
+Wrong card: False
 
 Turn: 25
-Turn token: human
-Position_clicked: [2, 1]
-Card_clicked: italy
-Time_game: 1:44
-Time_before_match: 0:2
+Turn token: robot
+Robot_subject: math
+Position_clicked: [2, 2]
+Card_clicked: equation_4
+Time_game: 0:53
+Time_before_match: 0:5
 Match: False
+Trials: 3
+Wrong card: False
 
 Turn: 26
-Turn token: human
-Position_clicked: [1, 2]
-Card_clicked: rome
-Time_game: 1:46
-Time_before_match: 0:4
+Turn token: robot
+Robot_subject: math
+Position_clicked: [3, 2]
+Card_clicked: result_4
+Time_game: 0:54
+Time_before_match: 0:6
 Match: True
+Trials: 3
+Wrong card: False
 
 Turn: 27
 Turn token: human
-Position_clicked: [2, 3]
-Card_clicked: equation_3
-Time_game: 1:48
-Time_before_match: 0:2
+Robot_subject: 
+Position_clicked: [3, 3]
+Card_clicked: madrid
+Time_game: 0:57
+Time_before_match: 0:3
 Match: False
+Trials: 3
+Wrong card: False
 
 Turn: 28
 Turn token: human
-Position_clicked: [0, 3]
-Card_clicked: result_3
-Time_game: 1:49
-Time_before_match: 0:3
+Robot_subject: 
+Position_clicked: [1, 1]
+Card_clicked: spain
+Time_game: 1:2
+Time_before_match: 0:8
 Match: True
+Trials: 2
+Wrong card: False
+
+Turn: 29
+Turn token: robot
+Robot_subject: math
+Position_clicked: [2, 1]
+Card_clicked: equation_1
+Time_game: 1:10
+Time_before_match: 0:8
+Match: False
+Trials: 2
+Wrong card: False
+
+Turn: 30
+Turn token: robot
+Robot_subject: math
+Position_clicked: [2, 0]
+Card_clicked: result_1
+Time_game: 1:12
+Time_before_match: 0:10
+Match: True
+Trials: 1
+Wrong card: False
+
+Turn: 31
+Turn token: human
+Robot_subject: 
+Position_clicked: [1, 0]
+Card_clicked: paris
+Time_game: 1:16
+Time_before_match: 0:4
+Match: False
+Trials: 1
+Wrong card: False
+
+Turn: 32
+Turn token: human
+Robot_subject: 
+Position_clicked: [3, 1]
+Card_clicked: france
+Time_game: 1:17
+Time_before_match: 0:5
+Match: True
+Trials: 1
+Wrong card: False
+
+Turn: 33
+Turn token: human
+Robot_subject: 
+Position_clicked: [3, 0]
+Card_clicked: buenos_aires
+Time_game: 1:19
+Time_before_match: 0:2
+Match: False
+Trials: 1
+Wrong card: False
+
+Turn: 34
+Turn token: human
+Robot_subject: math
+Position_clicked: [0, 2]
+Card_clicked: argentina
+Time_game: 1:31
+Time_before_match: 0:14
+Match: True
+Trials: 0
+Wrong card: False

@@ -29,7 +29,7 @@ class FileManager:
         self.n_pairs = Util.get_from_json_file("config")['pairs']
         # subject is used in this case: human clicks handover -> robot turn -> robot handover -> human turn (i.e the robot hasn't clicked any card)
         self.CSV_FIELDS = ['id_player', 'experiment_condition', 'turn_token', 'turn_number', 
-                           'position_clicked', 'time_game','time_until_match', 'match', 
+                           'position_clicked', 'card_clicked', 'time_game','time_until_match', 'match', 
                            'game_ended', 'board_changed', 'robot_speech', 'wrong_card', 'subject']
         self.csv_data = {field: [] for field in self.CSV_FIELDS}
         self.experimental_condition = ''
@@ -105,6 +105,7 @@ class FileManager:
 
             self.csv_data["turn_token"].append(token)
             self.csv_data["turn_number"].append(game_data.get("turn", 0))
+            self.csv_data["card_clicked"].append(game_data.get("open_card_name", ""))
             self.csv_data["position_clicked"].append(game_data.get("position", []))
             self.csv_data["time_game"].append(game_data.get("time_game", "0:0"))
             self.csv_data["time_until_match"].append(game_data.get("time_until_match", "0:0"))

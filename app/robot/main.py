@@ -40,7 +40,7 @@ class ManagerNode:
 
         if      pairs <= BEGIN_GAME:    return random.choices([0, 1], weights=[0.65, 0.35])[0]
         elif    pairs <= MIDDLE_GAME:   return random.choices([0, 1], weights=[0.5, 0.5])[0]
-        else:                           return random.choices([0, 1], weights=[0.35, 0.65])[0]
+        else:                           return random.choices([0, 1], weights=[0.25, 0.75])[0]
 
     def get_player_id(self):
         return self.player_id
