@@ -7,11 +7,11 @@ Navigare nella cartella **app** ed eseguire il comando:
 py app.py 1 0
 ```
 Dove 1 è l'ID del giocatore, e 0..4 sono le condizioni:
-+ 0: Both robot are competent(correct card - correct curiosity)
-+ 1: One robot is competent, the other one is semi-competent (correct card - wrong curiosity)
-+ 2: One robot is competent, the other one is semi-competent (wrong card - correct curiosity)
-+ 3: One robot is competent, the other one is incompetent (wrong card - wrong curiosity)
-+ 4: Both robot are incompetent (wrong card - wrong curiosity)
++ 0 - CC: Both robot are competent(correct card - correct curiosity)
++ 1 - CSO: One robot is competent, the other one is semi-competent (correct card - wrong curiosity)
++ 2 - CS1: One robot is competent, the other one is semi-competent (wrong card - correct curiosity)
++ 3 - CI: One robot is competent, the other one is incompetent (wrong card - wrong curiosity)
++ 4 - II: Both robot are incompetent (wrong card - wrong curiosity)
 
 Si aprirà automaticamente la schermata del gioco.
 
