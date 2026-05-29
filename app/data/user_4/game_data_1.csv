@@ -44,6 +44,7 @@ id_player;experiment_condition;turn_token;turn_number;position_clicked;time_game
 4;CI;human;43;[0, 2];02:03;00:03;False;False;False;False;False;
 4;CI;human;44;[2, 2];02:04;00:04;False;False;False;False;False;
 4;CI;human;45;[2, 1];02:05;00:05;False;False;False;math;False;
+4;CI;math;46;[3, 3];02:06;00:06;False;False;True;False;True;math
 4;CI;math;47;[1, 1];02:07;00:07;False;False;False;geography;False;math
 4;CI;human;48;[2, 1];02:12;00:12;False;False;False;False;False;geography
 4;CI;human;49;[0, 0];02:13;00:13;False;False;False;geography;False;
