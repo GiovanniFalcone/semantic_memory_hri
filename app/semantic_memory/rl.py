@@ -36,9 +36,8 @@ def steps(env: gym.Env, policy: Callable[[object], object]):
 
         policy_state = policy.__self__
         policy_state.current_agent = env.current_agent_type
-        print(f"[RL] {'':<10} {'Current agent:':<18} {policy_state.current_agent}")
         action = policy(state)
-        print(f"[RL] {'':<10} {'Chosen action:':<18} {action} (0..7 C cards | 8 Random unseen | 9 Handover)")
+        # print(f"[RL] {'':<10} {'Chosen action:':<18} {action} (0..7 C cards | 8 Random unseen | 9 Handover)")
         next_state, reward, term, trunc, next_info = env.step(action)
         i += 1
         yield TimeStep(state, action, next_state, reward, term, trunc, info, next_info)
@@ -83,8 +82,6 @@ class TabularQLearning:
             return self.algo.epsilon_schedule(self.steps)
 
         def best_action(self, s):
-            print(f"[Q] {'':<11} {'Current agent:':<18} {self.current_agent}")
-
             # se viene visitato uno stato mai esplorato durante l'addestramento esegue handover
             if s not in self.q:
                 first_key_of_q = next(iter(self.q))
@@ -95,7 +92,7 @@ class TabularQLearning:
             # sceglie casualmente una delle migliori azioni 
             best_action = np.random.choice(np.flatnonzero(self.q[s] == self.q[s].max()))
             print(f"[Q] {'':<11} {'State in Q:':<18} {s} | Best action: {best_action}")
-            print(f"[Q] {'':11} {'Info (old):':<18} {self.counter} | {self.old_state} | {self.old_action}")
+            # print(f"[Q] {'':11} {'Info (old):':<18} {self.counter} | {self.old_state} | {self.old_action}")
 
             if best_action == len(self.q[s]) - 1: # handover (dict)
             # if best_action == self.q.shape[1] - 1: # handover

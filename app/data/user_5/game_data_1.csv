@@ -60,6 +60,7 @@ id_player;experiment_condition;turn_token;turn_number;position_clicked;time_game
 5;II;human;59;[2, 2];02:59;00:05;False;False;False;math;False;
 5;II;human;60;[2, 3];03:03;00:09;False;False;False;math;False;
 5;II;math;61;[2, 2];03:04;00:10;False;False;False;False;False;math
+5;II;math;62;[1, 2];03:06;00:12;False;False;True;False;True;math
 5;II;human;63;[0, 1];03:09;00:15;False;False;False;math;False;
 5;II;human;64;[3, 0];03:09;00:15;False;False;False;math;False;
 5;II;human;65;[2, 1];03:10;00:16;False;False;False;geography;False;
@@ -83,7 +84,7 @@ id_player;experiment_condition;turn_token;turn_number;position_clicked;time_game
 5;II;human;84;[2, 2];03:49;00:55;False;False;False;math;False;
 5;II;human;85;[2, 3];03:53;00:59;False;False;False;geography;False;
 5;II;human;86;[2, 1];03:53;00:59;True;False;False;geography;False;
-5;II;geography;87;[1, 1];03:55;00:02;False;False;False;math;True;geography
+5;II;geography;87;[1, 1];03:55;00:02;False;False;False;math;False;geography
 5;II;human;88;[3, 0];04:04;00:11;False;False;False;math;False;math
 5;II;human;89;[1, 2];04:08;00:15;False;False;False;math;False;
 5;II;human;90;[3, 0];04:10;00:17;True;False;False;math;False;

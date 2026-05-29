@@ -272,7 +272,7 @@ class MemoryGameEnv(gym.Env):
         # debug
         print(f"[MemoryGameEnv] {'Agent type:':<18} {self.current_agent_type}")
         print(f"[MemoryGameEnv] {'My seen:':<18} {seen} | face up = {face_up}")
-        print(f"[MemoryGameEnv] {'State:':<18} {new_state}")
+        # print(f"[MemoryGameEnv] {'State:':<18} {new_state}")
         
         return new_state
 
