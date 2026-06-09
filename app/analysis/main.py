@@ -63,14 +63,14 @@ def get_token_geo(df):
     get number of times the robot David (geography) played during the game
     """
     tmp = df.loc[df['subject'] == 'geography']      
-    token_geo.append(len(tmp))
+    token_geo.append(round(len(tmp)))
 
 def get_token_math(df):
     """
     get number of times the robot David (math) played during the game
     """
     tmp = df.loc[df['subject'] == 'math']      
-    token_math.append(len(tmp))
+    token_math.append(round(len(tmp)))
 
 def get_pairs_resolved_from_geo_robot(df):
     """
@@ -174,6 +174,54 @@ df_final['time to finish'] = pd.to_timedelta(df_final['time to finish'])
 df_final['time to finish'] = df_final['time to finish'].astype(str)
 df_final['time to finish'] = df_final['time to finish'].apply(lambda x: str(x).split()[2]) # remove 0 days
 
-# save it on excel
-with pd.ExcelWriter("results.xlsx") as writer:
-    df_final.to_excel(writer, index=False, float_format="%.2f")
+
+# calcola media e dev std
+
+# conversione per il tempo da stringa a timedelta
+df_final['time to finish'] = pd.to_timedelta(df_final['time to finish'])
+df_final['average time to find a pair'] = pd.to_timedelta(df_final['average time to find a pair'])
+# poi a secondi
+df_final['time to finish_sec'] = df_final['time to finish'].dt.total_seconds()
+df_final['avg_find_pair_sec'] = df_final['average time to find a pair'].dt.total_seconds()
+
+# seleziona solo le colonne numeriche ed esclude id (per non fare la media)
+numeric_cols = df_final.select_dtypes(include=['number']).columns.drop('id', errors='ignore')
+
+# avg e std
+df_media = df_final.groupby('experiment_condition')[numeric_cols].mean()
+df_dev_std = df_final.groupby('experiment_condition')[numeric_cols].std() 
+
+# crea un nuovo dataframe
+df_new = pd.DataFrame(index=df_media.index)
+for col in numeric_cols:
+    df_new[f"{col}_avg"] = df_media[col]
+    df_new[f"{col}_std"] = df_dev_std[col]
+
+# ordina le colonne
+colonne_ordinate = []
+for col in numeric_cols:
+    colonne_ordinate.extend([f"{col}_avg", f"{col}_std"])
+df_ordinato = df_new[colonne_ordinate]
+
+# sala su un'altra scheda dello stesso foglio
+with pd.ExcelWriter("results.xlsx", engine='openpyxl') as writer:
+    df_final.to_excel(writer, sheet_name="RAW", index=False, float_format="%.2f")
+    
+    df_ordinato.to_excel(writer, sheet_name="STATS", index=True, float_format="%.2f")
+
+# auto adjust column width
+import openpyxl
+from openpyxl.styles import Alignment
+from openpyxl.utils import get_column_letter
+
+wb = openpyxl.load_workbook("results.xlsx")
+centered = Alignment(horizontal="center", vertical="center", wrap_text=True)
+for sheet in wb.sheetnames:
+    ws = wb[sheet]
+    for col in ws.columns:
+        max_len = max(len(str(cell.value or '')) for cell in col)
+        col_letter = openpyxl.utils.get_column_letter(col[0].column)
+        ws.column_dimensions[col_letter].width = max(max_len + 3, 12)
+        for cell in col:
+            cell.alignment = centered
+wb.save("results.xlsx")

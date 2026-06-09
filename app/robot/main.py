@@ -37,7 +37,7 @@ class ManagerNode:
         BEGIN_GAME = 3 # PAIRS
         MIDDLE_GAME = 3
         # END_GAME = 2
-
+ 
         if      pairs <= BEGIN_GAME:    return random.choices([0, 1], weights=[0.65, 0.35])[0]
         elif    pairs <= MIDDLE_GAME:   return random.choices([0, 1], weights=[0.5, 0.5])[0]
         else:                           return random.choices([0, 1], weights=[0.25, 0.75])[0]

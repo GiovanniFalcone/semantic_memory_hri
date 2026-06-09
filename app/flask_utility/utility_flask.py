@@ -412,9 +412,13 @@ class UtilityFlask:
             self._handle_board_change(new_board)
             time.sleep(0.5)
 
+        # ??
         # since robot is not connected speech will be always False
         if not self.socket_manager.robot_socket_connected:
             self._write_game_state_on_files()
+
+        # save data on file...
+        self._write_game_state_on_files()
 
         print("")
         return jsonify({'message': 'Card clicked from robot on UI'}), 200

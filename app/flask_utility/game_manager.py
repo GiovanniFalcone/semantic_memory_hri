@@ -79,6 +79,7 @@ class GameManager:
             f"{'Card value clicked':<20}: {self.idx.get(game_data.get('open_card_name'), 'N/A')}\n"
             f"{'Pairs found':<20}: {game_data.get('pairs', 'N/A')}\n"
             f"{'Trials':<20}: {game_data.get('trials', 'N/A')}\n"
+            f"{'Board changed':<20}: {game_data.get('board_changed', False)}\n"
             f"{'Match':<20}: {game_data.get('match', 'N/A')}"
         )
 
