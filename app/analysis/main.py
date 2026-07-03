@@ -174,8 +174,7 @@ df_final['time to finish'] = pd.to_timedelta(df_final['time to finish'])
 df_final['time to finish'] = df_final['time to finish'].astype(str)
 df_final['time to finish'] = df_final['time to finish'].apply(lambda x: str(x).split()[2]) # remove 0 days
 
-
-# calcola media e dev std
+print(df_final['time to finish'])
 
 # conversione per il tempo da stringa a timedelta
 df_final['time to finish'] = pd.to_timedelta(df_final['time to finish'])
@@ -183,6 +182,16 @@ df_final['average time to find a pair'] = pd.to_timedelta(df_final['average time
 # poi a secondi
 df_final['time to finish_sec'] = df_final['time to finish'].dt.total_seconds()
 df_final['avg_find_pair_sec'] = df_final['average time to find a pair'].dt.total_seconds()
+
+# rimuove le colonne del tempo (non in secondi)
+df_final.drop(columns=['time to finish', 'average time to find a pair'], inplace=True)
+
+# riordina le colonne del DataFrame
+new_order = ['id', 'experiment_condition', 'turns', 'time to finish_sec', 'avg_find_pair_sec',
+                'wrong moves', 'board changed times', 'token geo', 'token math',
+                'pairs resolved from geo robot', 'pairs resolved from math robot',
+                'number of curiosities from geo robot', 'number of curiosities from math robot']
+df_final = df_final[new_order]
 
 # seleziona solo le colonne numeriche ed esclude id (per non fare la media)
 numeric_cols = df_final.select_dtypes(include=['number']).columns.drop('id', errors='ignore')
