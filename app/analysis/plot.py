@@ -35,3 +35,8 @@ create_boxplot_by_condition(df, "turns", "Turns by experimental condition", "Num
 create_boxplot_by_condition(df, "token geo", "Token geo by experimental condition", "Number of times the geo token was used", "boxplot_token_geo.png")
 # numero di volte che è stato cliccato il bottone math
 create_boxplot_by_condition(df, "token math", "Token math by experimental condition", "Number of times the math token was used", "boxplot_token_math.png")
+
+# numero di volte totali in cui gli utenti hanno cliccato i bottoni
+df_total = df.copy()
+df_total["total_clicks"] = df_total["token geo"] + df_total["token math"]
+create_boxplot_by_condition(df_total, "total_clicks", "Total clicks by experimental condition", "Total number of clicks", "boxplot_total_clicks.png")
