@@ -30,7 +30,7 @@ class FileManager:
         # subject is used in this case: human clicks handover -> robot turn -> robot handover -> human turn (i.e the robot hasn't clicked any card)
         self.CSV_FIELDS = ['id_player', 'experiment_condition', 'turn_token', 'turn_number', 
                            'position_clicked', 'card_clicked', 'time_game','time_until_match', 'match', 
-                           'game_ended', 'board_changed', 'robot_speech', 'wrong_card', 'subject']
+                           'game_ended', 'board_changed', 'trials', 'robot_speech', 'wrong_card', 'subject']
         self.csv_data = {field: [] for field in self.CSV_FIELDS}
         self.experimental_condition = ''
 
@@ -111,6 +111,7 @@ class FileManager:
             self.csv_data["time_until_match"].append(game_data.get("time_until_match", "0:0"))
             self.csv_data["match"].append(game_data.get("match", False))
             self.csv_data["board_changed"].append(game_data.get("board_changed", False))
+            self.csv_data["trials"].append(game_data.get("trials", 0))
             self.csv_data["robot_speech"].append(game_data.get("robot_speech", False))
             self.csv_data["wrong_card"].append(game_data.get("is_wrong_card", False))
             self.csv_data["game_ended"].append(game_data.get("pairs", 0) == self.n_pairs)
