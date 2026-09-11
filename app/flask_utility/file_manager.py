@@ -29,8 +29,9 @@ class FileManager:
         self.n_pairs = Util.get_from_json_file("config")['pairs']
         # subject is used in this case: human clicks handover -> robot turn -> robot handover -> human turn (i.e the robot hasn't clicked any card)
         self.CSV_FIELDS = ['id_player', 'experiment_condition', 'turn_token', 'turn_number', 
-                           'position_clicked', 'card_clicked', 'time_game','time_until_match', 'match', 
-                           'game_ended', 'board_changed', 'trials', 'robot_speech', 'wrong_card', 'subject']
+                           'position_clicked', 'card_clicked', 'time_game','time_until_match', 
+                           'match', 'should_be_a_match', 'game_ended', 'board_changed', ''
+                           'trials', 'robot_speech', 'wrong_card', 'subject']
         self.csv_data = {field: [] for field in self.CSV_FIELDS}
         self.experimental_condition = ''
 
@@ -47,7 +48,7 @@ class FileManager:
         """
         game_data = data.get("game", {})
         token = 'robot' if game_data.get('is_robot_turn', False) else 'human'
-        Util.update_log_file(f"\nTurn: {game_data.get('turn', 'N/A')}\nTurn token: {token}\nRobot_subject: {game_data.get('robot_subject', 'N/A')}\nPosition_clicked: {game_data.get('position', 'N/A')}\nCard_clicked: {game_data.get('open_card_name', 'N/A')}\nTime_game: {game_data.get('time_game', 'N/A')}\nTime_before_match: {game_data.get('time_until_match', 'N/A')}\nMatch: {game_data.get('match', 'N/A')}\nTrials: {game_data.get('trials', 'N/A')}", self.id_player, self.n_game)
+        Util.update_log_file(f"\nTurn: {game_data.get('turn', 'N/A')}\nTurn token: {token}\nRobot_subject: {game_data.get('robot_subject', 'N/A')}\nPosition_clicked: {game_data.get('position', 'N/A')}\nCard_clicked: {game_data.get('open_card_name', 'N/A')}\nTime_game: {game_data.get('time_game', 'N/A')}\nTime_before_match: {game_data.get('time_until_match', 'N/A')}\nMatch: {game_data.get('match', 'N/A')}\nShould_be_a_match: {game_data.get('should_agent_do_match','N/A')}\nTrials: {game_data.get('trials', 'N/A')}", self.id_player, self.n_game)
 
     def _write_board_on_file(self, shuffle_cards, changed=False):
         """
@@ -99,6 +100,7 @@ class FileManager:
             game_data = data['game']
             subject = game_data.get("robot_subject", "")
             token = subject if game_data.get('is_robot_turn', False) else 'human'
+            should_be_a_match = game_data.get("should_agent_do_match", 'no') if token == 'human' else ''
 
             self.csv_data["id_player"].append(self.id_player)
             self.csv_data["experiment_condition"].append(self.experimental_condition)
@@ -110,6 +112,7 @@ class FileManager:
             self.csv_data["time_game"].append(game_data.get("time_game", "0:0"))
             self.csv_data["time_until_match"].append(game_data.get("time_until_match", "0:0"))
             self.csv_data["match"].append(game_data.get("match", False))
+            self.csv_data["should_be_a_match"].append(should_be_a_match)
             self.csv_data["board_changed"].append(game_data.get("board_changed", False))
             self.csv_data["trials"].append(game_data.get("trials", 0))
             self.csv_data["robot_speech"].append(game_data.get("robot_speech", False))

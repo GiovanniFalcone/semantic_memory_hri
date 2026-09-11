@@ -15,6 +15,7 @@ export const state = {
     isRobotTurn: false,                     // To know if it's robot's turn 
     robotSubject: "",
     hasProvidedWrongCard: false,            // use for SC and NC conditions
+    robotKnownCards: new Set(),             // used to track the cards that rhe robot has seen and knows the location of, in case to know if the robot has not discovered a pair when it should have
 
     // When agent/robot helps
     hintCards: [],
@@ -36,7 +37,7 @@ export const state = {
     boardChanging: false,
 
     // shuffle settings
-    seenCards: new Set(),                    // To track cards that have been seen by the user
+    seenCards: new Set(),                   // To track cards that have been seen by the user
     k: 3,                                   // constant used to calculate shuffle trials, can be changed to make shuffle more or less frequent       
     shuffleTrials: 0,
     remainingCards: 16,                     // number of cards that are not yet found, used to calculate shuffle trials

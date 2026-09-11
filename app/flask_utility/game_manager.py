@@ -83,6 +83,9 @@ class GameManager:
             f"{'Match':<20}: {game_data.get('match', 'N/A')}"
         )
 
+        if is_robot_turn:
+            print(f"{'Should be a match':<20}: {game_data.get('should_agent_do_match', 'N/A')}")
+
         if self.experimental_condition in [2, 3, 4]:
             print(f"{'Wrong card':<20}: {game_data.get('is_wrong_card', False)}")
 

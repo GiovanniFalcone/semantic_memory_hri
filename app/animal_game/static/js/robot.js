@@ -134,6 +134,73 @@ export function moveReceivedByRobot(msg) {
     }
 }
 
+/** ******************************************************************************************************************
+ *                                        Should be a match                                                          *                                               
+ * ******************************************************************************************************************* 
+ * */ 
+
+
+export function shouldTheAgentDoAMatch(pairsDictionary, clickedCardName){
+        if (state.opened.length === 1) {
+            // first turn of the current move
+            // The card is immediately added to the set of cards known to the robot
+            state.robotKnownCards.add(clickedCardName);
+        }
+    
+        // Find the card that match with the clicked one
+        const partnerCardName = pairsDictionary[clickedCardName] || 
+                                Object.keys(pairsDictionary).find(key => pairsDictionary[key] === clickedCardName);
+    
+        // check if the partner card is already known
+        const isPartnerKnown = state.robotKnownCards.has(partnerCardName);
+    
+        // variable to send to the server in order to check if the agent could do the match or not
+        let robotCouldMatch = 'no';
+        console.log("Robot is partner known? " + (isPartnerKnown ? "knows" : "does not know") + " " + partnerCardName);
+        console.log("Robot known cards: " + Array.from(state.robotKnownCards).join(", "));
+    
+        if (state.opened.length === 1) {
+            // first turn of the current move
+            // if the partner is known, then the agent should resolved the pair in the next turn
+            // example: 
+            //  - Set of known cards: Paris, Equation_2, Rome, Argentina
+            //  - turn N: card clicked is France - > Paris is Known? True -> robot should match France with Paris
+            robotCouldMatch = isPartnerKnown ? 'yes' : 'no';
+    
+        } else if (state.opened.length === 2) {
+            // second turn of the current move
+            // get the card clicked in the first turn of the current move
+            const first = state.opened[0];
+            const second = state.opened[1];
+    
+            // Case A: a card is already known and the pair is resolved
+            //  - Set of known cards: Paris, Equation_2, Rome, Argentina
+            //  - turn N: card clicked is France - > Paris is Known? True -> robot should match France with Paris
+            //  - turn N + 1: card clicked is Paris -> they match -> so we save True
+            // Case B: a card is already known but the pair is not resolved
+            //  - Set of known cards: Paris, Equation_2, Rome, Argentina
+            //  - turn N: card clicked is France - > Paris is Known? True -> robot should match France with Paris
+            //  - turn N + 1: card clicked is Italy -> they did not match -> so we save False and then we add the new card in the set of known cards
+            // Case C: both are not known
+            //  - Set of known cards: Paris, Equation_2, Rome, Argentina
+            //  - Turn N: card clicked is equation 2 -> result_2 not known -> isPartnerKnown=False, should not do the match 
+            //  - Turn N + 1: card clicked is result_2 -> random match
+            if (pairsDictionary[first] === second || pairsDictionary[second] === first){
+                const isCurrentKnown = state.robotKnownCards.has(clickedCardName);
+                // if the current was not known but the pair is resolved it means the agent has clicked random
+                robotCouldMatch = isCurrentKnown ? 'yes' : 'random';
+            } else {
+                robotCouldMatch = 'no';
+                // save the new card clicked
+                state.robotKnownCards.add(clickedCardName);
+            }
+        }
+        state.robotKnownCards.add(clickedCardName);
+        console.log("Robot could have matched? " + robotCouldMatch);
+        console.log("Robot known cards after clicks: " + Array.from(state.robotKnownCards).join(", "));
+
+        return robotCouldMatch
+}
 
 /** ******************************************************************************************************************
  *                                                     HINT                                                          *                                               

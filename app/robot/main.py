@@ -167,10 +167,10 @@ class ManagerNode:
             
             #time.sleep(1.0)
             if subject == "math":
-                print(f"{'[Manager] Robot speaking':<30}: 1")
+                print(f"{'[Manager] Robot speaking':<30}: 2")
                 self.interaction_2.speak(sentence)
             else:
-                print(f"{'[Manager] Robot speaking':<30}: 2")
+                print(f"{'[Manager] Robot speaking':<30}: 1")
                 self.interaction_1.speak(sentence)
 
             self._send_robot_speech(self.player_id, speech=True, subject=subject, status="uttered")

@@ -14,10 +14,14 @@ time_play = []
 avg_time_until_match = []
 wrong_moves = []
 board_chanded_times = []
+turns_geo = []
+turns_math = []
 token_geo = []
 token_math = []
 pairs_resolved_from_geo_robot = []
 pairs_resolved_from_math_robot = []
+pairs_resolved_from_geo_robot_based_on_tokens = []
+pairs_resolved_from_math_robot_based_on_tokens = []
 number_of_curiosities_from_geo_robot = []
 number_of_curiosities_from_math_robot = []
 
@@ -63,14 +67,28 @@ def get_token_geo(df):
     get number of times the robot David (geography) played during the game
     """
     tmp = df.loc[df['subject'] == 'geography']      
-    token_geo.append(round(len(tmp)))
+    token_geo.append(math.ceil(len(tmp)/2)) # divide by 2 because the robot plays only half of the turns
 
 def get_token_math(df):
+    """
+    get number of times the robot Michael (math) played during the game
+    """
+    tmp = df.loc[df['subject'] == 'math']      
+    token_math.append(math.ceil(len(tmp)/2)) # divide by 2 because the robot plays only half of the turns
+
+def get_turns_geo(df):
+    """
+    get number of times the robot David (geography) played during the game
+    """
+    tmp = df.loc[df['subject'] == 'geography']      
+    turns_geo.append(round(len(tmp)))
+
+def get_turns_math(df):
     """
     get number of times the robot David (math) played during the game
     """
     tmp = df.loc[df['subject'] == 'math']      
-    token_math.append(round(len(tmp)))
+    turns_math.append(round(len(tmp)))
 
 def get_pairs_resolved_from_geo_robot(df):
     """
@@ -79,12 +97,38 @@ def get_pairs_resolved_from_geo_robot(df):
     tmp = df.loc[(df['turn_token'] == 'geography') & (df['match'] == True)]      
     pairs_resolved_from_geo_robot.append(len(tmp))
 
+def get_pairs_resolved_from_geo_robot_based_on_tokens(df):
+    """
+    get number of pairs resolved by the robot David (geography) during the game based on the number of tokens
+    """
+    # numero di coppie risolte dal robot di geografia 
+    pairs_resolved = df.loc[(df['turn_token'] == 'geography') & (df['match'] == True)]      
+    # numero di token
+    tokens = df.loc[df['subject'] == 'geography']
+    if len(tokens) > 0:
+        pairs_resolved_from_geo_robot_based_on_tokens.append(len(pairs_resolved)/len(tokens))
+    else:
+        pairs_resolved_from_geo_robot_based_on_tokens.append(0)
+
 def get_pairs_resolved_from_math_robot(df):
     """
     get number of pairs resolved by the robot Michael (math) during the game
     """
     tmp = df.loc[(df['turn_token'] == 'math') & (df['match'] == True)]      
     pairs_resolved_from_math_robot.append(len(tmp))
+
+def get_pairs_resolved_from_math_robot_based_on_tokens(df):
+    """
+    get number of pairs resolved by the robot Michael (math) during the game based on the number of tokens
+    """
+    # numero di coppie risolte dal robot di geografia 
+    pairs_resolved = df.loc[(df['turn_token'] == 'math') & (df['match'] == True)]      
+    # numero di token
+    tokens = df.loc[df['subject'] == 'math']
+    if len(tokens) > 0:
+        pairs_resolved_from_math_robot_based_on_tokens.append(len(pairs_resolved)/len(tokens))
+    else:
+        pairs_resolved_from_math_robot_based_on_tokens.append(0)
 
 def get_number_of_curiosities_from_geo_robot(df):
     """
@@ -111,6 +155,10 @@ for root, dirs, files in sorted(os.walk(path)):
             df = pd.read_csv(os.path.join(root,file), sep=';')
             print(df)
 
+            # esclude il partecipante 2
+            if df['id_player'].iloc[0] == 2:
+                continue
+
             # get id and mod
             ids.append(df['id_player'].iloc[0])
             mod.append(df['experiment_condition'].iloc[0])
@@ -133,11 +181,23 @@ for root, dirs, files in sorted(os.walk(path)):
             # get token math
             get_token_math(df)
 
-            # get pairs resolved from geo robot
+            # get turns geo
+            get_turns_geo(df)
+
+            # get turns math
+            get_turns_math(df)
+
+            # get pairs resolved from geo robot in general
             get_pairs_resolved_from_geo_robot(df)
+
+            # get pairs resolved from geo robot based on number of tokens
+            get_pairs_resolved_from_geo_robot_based_on_tokens(df)
 
             # get pairs resolved from math robot
             get_pairs_resolved_from_math_robot(df)
+
+            # get pairs resolved from math robot based on number of tokens
+            get_pairs_resolved_from_math_robot_based_on_tokens(df)
 
             # get number of curiosities from geo robot
             get_number_of_curiosities_from_geo_robot(df)
@@ -155,8 +215,12 @@ csv_struct = {
     "board changed times": board_chanded_times,
     "token geo": token_geo,                                             # conta tutte le volte che l'umano ha cliccato il bottone (il robot potrebbe anche aver giocato 0 turni)
     "token math": token_math,
+    "turns geo": turns_geo,                                             # conta tutte le volte in cui il robot di geografia ha giocato
+    "turns math": turns_math,
     "pairs resolved from geo robot": pairs_resolved_from_geo_robot,     # conta anche quelle che ha risolto casualmente (le carte non erano note -> clicca random -> match)
+    "pairs resolved from geo robot based on tokens": pairs_resolved_from_geo_robot_based_on_tokens, # conta solo quelle che ha risolto in base ai token (le carte erano note -> clicca random -> match)
     "pairs resolved from math robot": pairs_resolved_from_math_robot,
+    "pairs resolved from math robot based on tokens": pairs_resolved_from_math_robot_based_on_tokens,
     "number of curiosities from geo robot": number_of_curiosities_from_geo_robot,
     "number of curiosities from math robot": number_of_curiosities_from_math_robot
 }
@@ -188,8 +252,9 @@ df_final.drop(columns=['time to finish', 'average time to find a pair'], inplace
 
 # riordina le colonne del DataFrame
 new_order = ['id', 'experiment_condition', 'turns', 'time to finish_sec', 'avg_find_pair_sec',
-                'wrong moves', 'board changed times', 'token geo', 'token math',
-                'pairs resolved from geo robot', 'pairs resolved from math robot',
+                'wrong moves', 'board changed times', 'token geo', 'turns geo', 'token math', 'turns math',
+                'pairs resolved from geo robot', 'pairs resolved from geo robot based on tokens',
+                'pairs resolved from math robot', 'pairs resolved from math robot based on tokens',
                 'number of curiosities from geo robot', 'number of curiosities from math robot']
 df_final = df_final[new_order]
 

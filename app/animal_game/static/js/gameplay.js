@@ -9,8 +9,9 @@ import { sendFlask } from './flask.js';
 import { stopTimer, myStopTimer } from './timers.js';
 import { starCount, printMoves, printTrials } from './score.js';
 import { handleShuffle } from './shuffle.js';
-import { congrats, turnPopUp, hideTurnPopup, turnPopUpUser, hideTurnPopupUser } from './popups.js';
+import { congrats } from './popups.js';
 import { shuffle } from './utils.js';
+import { shouldTheAgentDoAMatch } from './robot.js';
 
 /**
  * Generate cards from pairs
@@ -94,9 +95,13 @@ export async function cardClickListener(cardElement, card) {
     const clickedCardPosition = [indexRow, indexCol];
     console.log("Clicked card: " + clickedCardName + " at position " + clickedCardPosition + " at turn " + state.turns);
 
+    // check if the agent could do a match or not
+    let robotCouldMatch = shouldTheAgentDoAMatch(pairs, clickedCardName)
+
     if (state.opened.length > 1) {
         const first = state.opened[0];
         const second = state.opened[1];
+
         if (pairs[first] === second || pairs[second] === first) {
             match();
             // update shuffle trials and remaining cards if shuffle is enabled
@@ -106,6 +111,10 @@ export async function cardClickListener(cardElement, card) {
             state.cardsFound.push(first);
             state.cardsFound.push(second);
             console.log("Cards found so far: " + state.cardsFound);
+
+            // delete the matched cards from robotKnownCards to avoid unnecessary memory growth
+            state.robotKnownCards.delete(first);
+            state.robotKnownCards.delete(second);
 
             // color shuffle trials
             const desc = document.querySelector('.trials');
@@ -140,6 +149,11 @@ export async function cardClickListener(cardElement, card) {
         congrats();
     }
 
+    // if board is changed then remove all cards from the set since the cards have a new coordinates
+    if(state.boardChanging){
+        state.robotKnownCards.clear();
+    }
+
     // console.log("Returning after shuffle if any... the array is " + state.allCardNames)
     sendFlask("game", {
         "open_card_name": clickedCardName,
@@ -156,6 +170,7 @@ export async function cardClickListener(cardElement, card) {
         "time_until_match": `${state.myMinutes}:${state.mySeconds}`,
         "time_game": `${state.minutes}:${state.seconds}`,
         "cards_found": state.cardsFound,
+        "should_agent_do_match": robotCouldMatch,
         "board_changed": state.boardChanging,
         "new_board": state.allCardNames
     }, "/player_move");

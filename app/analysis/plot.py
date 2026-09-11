@@ -4,12 +4,15 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 def create_boxplot_by_condition(df, y_col, title, y_label, output_filename):
+    condition_order = ['CC', 'CS1', 'CS0', 'CI', 'II']
+
     sns.boxplot(
         x='experiment_condition', 
         y=y_col, 
         hue='experiment_condition', 
         palette="pastel", 
-        legend=False,              
+        legend=False,  
+        order=condition_order,            
         data=df
     )
 
@@ -35,6 +38,10 @@ create_boxplot_by_condition(df, "turns", "Turns by experimental condition", "Num
 create_boxplot_by_condition(df, "token geo", "Token geo by experimental condition", "Number of times the geo token was used", "3_boxplot_token_geo.png")
 # numero di volte che è stato cliccato il bottone math
 create_boxplot_by_condition(df, "token math", "Token math by experimental condition", "Number of times the math token was used", "4_boxplot_token_math.png")
+# numero di volte in cui il robot di geografia ha giocato
+create_boxplot_by_condition(df, "turns geo", "Turns geo by experimental condition", "Number of times the geo robot played", "3_boxplot_turns_geo.png")
+# numero di volte che è stato cliccato il bottone math
+create_boxplot_by_condition(df, "turns math", "Turns math by experimental condition", "Number of times the math robot played", "4_boxplot_turns_math.png")
 # numero di volte in cui si è risettato il tabellone
 create_boxplot_by_condition(df, "board changed times", "Board resets by experimental condition", "Number of times the board was reset", "6_boxplot_reset.png")
 # numero di volte in cui il robot di geografia ha risolto delle coppie (qualsiasi: random e non)

@@ -66,6 +66,7 @@ def process_data_trust(type_filter, name):
     print(colonne_nuove, "\n")
 
     return colonne_nuove
+    
 
 # per ogni modalità apre il file, somma le varie scale e fa la media
 cc_D = process_data_PSI('CC', 'David')
@@ -91,6 +92,11 @@ data_final = pd.merge(data_David, data_Michael, on=['id', 'robot_type'])
 # ordina le colonne
 columns_order = ['id', 'robot_type', 'SOC_D', 'SOC_M', 'HLP_D', 'HLP_M', 'TRU_D', 'TRU_M']
 data_final = data_final[columns_order]
+
+# rimuove id=2
+print(f"Dimensione del dataset prima della rimozione dell'ID 2: {data_final.shape}")
+data_final = data_final[data_final['id'] != 2]
+print(f"Dimensione del dataset dopo la rimozione dell'ID 2: {data_final.shape}")
 
 print(data_David, "\n")
 print(data_Michael, "\n")
