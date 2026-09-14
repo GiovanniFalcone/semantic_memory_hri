@@ -100,7 +100,7 @@ class FileManager:
             game_data = data['game']
             subject = game_data.get("robot_subject", "")
             token = subject if game_data.get('is_robot_turn', False) else 'human'
-            should_be_a_match = game_data.get("should_agent_do_match", 'no') if token == 'human' else ''
+            should_be_a_match = game_data.get("should_agent_do_match", 'no') if token == subject else ''
 
             self.csv_data["id_player"].append(self.id_player)
             self.csv_data["experiment_condition"].append(self.experimental_condition)
