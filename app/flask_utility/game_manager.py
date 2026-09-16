@@ -83,8 +83,14 @@ class GameManager:
             f"{'Match':<20}: {game_data.get('match', 'N/A')}"
         )
 
-        if is_robot_turn:
-            print(f"{'Should be a match':<20}: {game_data.get('should_agent_do_match', 'N/A')}")
+        clicked_card_name = game_data.get('open_card_name', 'N/A')
+        if is_robot_turn is True:
+            if clicked_card_name in self.geography_cards and subject == "geography":
+                print(f"{'Should be a match':<20}: {game_data.get('should_agent_do_match', 'N/A')}")
+            elif clicked_card_name in self.math_cards and subject == "geography":
+                print(f"{'Should be a match':<20}: {game_data.get('should_agent_do_match', 'N/A')}")
+            else:
+                print(f"{'Should be a match':<20}: no")
 
         if self.experimental_condition in [2, 3, 4]:
             print(f"{'Wrong card':<20}: {game_data.get('is_wrong_card', False)}")

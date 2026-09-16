@@ -34,6 +34,9 @@ class FileManager:
                            'trials', 'robot_speech', 'wrong_card', 'subject']
         self.csv_data = {field: [] for field in self.CSV_FIELDS}
         self.experimental_condition = ''
+        self.geography_cards = ["rome", "italy", "paris", "france", "madrid", "spain", "buenos_aires", "argentina"]
+        self.math_cards = ["equation_1", "result_1", "equation_2", "result_2", "equation_3", "result_3", "equation_4", "result_4"]
+                
 
     def _write_game_data_on_file(self, data):
         """
@@ -101,6 +104,15 @@ class FileManager:
             subject = game_data.get("robot_subject", "")
             token = subject if game_data.get('is_robot_turn', False) else 'human'
             should_be_a_match = game_data.get("should_agent_do_match", 'no') if token == subject else ''
+
+            # the robot should know only the card of its subject
+            clicked_card_name = game_data.get('open_card_name', 'N/A')
+            if subject == "geography":
+                if clicked_card_name not in self.geography_cards:
+                    should_be_a_match = 'no'
+            elif subject == "math":
+                if clicked_card_name not in self.math_cards:
+                    should_be_a_match = 'no'
 
             self.csv_data["id_player"].append(self.id_player)
             self.csv_data["experiment_condition"].append(self.experimental_condition)
